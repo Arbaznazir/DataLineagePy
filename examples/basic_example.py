@@ -1,12 +1,12 @@
 
 # =============================================================
-#  🚀 DataLineagePy 3.0.2 Basic Example
+#  🚀 DataLineagePy 3.0.3 Basic Example
 # =============================================================
 #
 # Demonstrates core features: automatic lineage tracking, column-level
 # dependencies, assign/filter/groupby, and lineage queries/statistics.
 #
-# Version: 3.0.2   |   Last Updated: September 2025
+# Version: 3.0.3   |   Last Updated: September 2025
 # =============================================================
 
 
@@ -15,7 +15,7 @@ import pandas as pd
 
 
 def main():
-    print("\n🔗 DataLineagePy 3.0.2 Basic Example")
+    print("\n🔗 DataLineagePy 3.0.3 Basic Example")
     print("=" * 50)
 
     # --- Reset tracker for clean demo ---
@@ -81,7 +81,7 @@ def main():
     dependencies = table_lineage.get('all_dependencies', [])
     print(f"      Depends on {len(dependencies)} upstream tables")
 
-    print("\n✅ Example completed! DataLineagePy 3.0.2 successfully tracked the entire pipeline.")
+    print("\n✅ Example completed! DataLineagePy 3.0.3 successfully tracked the entire pipeline.")
     print("\n💡 Key features demonstrated:")
     print("   • Automatic lineage tracking for DataFrame operations")
     print("   • Column-level dependency tracking")

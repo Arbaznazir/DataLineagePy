@@ -11,7 +11,7 @@
 ---
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/Arbaznazir/DataLineagePy/main/docs/assets/logo.png" width="180" alt="DataLineagePy Logo"/>
+  <img src="banner.jpg" width="100%" alt="DataLineagePy Banner"/>
   <h2>Beautiful, Powerful, and Effortless Data Lineage for Python</h2>
   <p>Track, visualize, and govern your data pipelines with zero friction.</p>
 </div>

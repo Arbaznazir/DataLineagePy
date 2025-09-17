@@ -11,7 +11,7 @@
 
 > **Author:** Arbaz Nazir  
 > **Email:** arbaznazir4@gmail.com  
-> **Version:** 3.0.2 — Enterprise Release  
+> **Version:** 3.0.3 — Enterprise Release  
 > **Last Updated:** September 17, 2025
 
 ---
@@ -231,7 +231,7 @@
 
 | Version      | Release Date       | Documentation Status | Key Features                |
 | ------------ | ------------------ | -------------------- | --------------------------- |
-| <b>3.0.2</b> | September 17, 2025 | ✅ Complete          | Enterprise, mobile, new API |
+| <b>3.0.3</b> | September 17, 2025 | ✅ Complete          | Enterprise, mobile, new API |
 | 2.0.1        | June 19, 2025      | ✅ Complete          | Enterprise production ready |
 | 1.0.5        | May 2025           | ✅ Complete          | Performance optimization    |
 | 1.0.4        | April 2025         | ✅ Complete          | Advanced analytics          |
