@@ -1,0 +1,247 @@
+# Enterprise Integrations Requirements for DataLineagePy
+# Core integration framework and enterprise platform connectors
+
+# Core async and HTTP libraries
+aiohttp>=3.8.0
+requests>=2.28.0
+asyncio-throttle>=1.0.2
+
+# Authentication and security
+PyJWT>=2.6.0
+cryptography>=3.4.8
+
+# Graph processing for lineage
+networkx>=3.0
+
+# Data Platform Connectors
+# Snowflake
+snowflake-connector-python>=3.0.0
+cryptography>=3.4.8
+
+# Databricks
+databricks-sql-connector>=2.0.0
+databricks-cli>=0.17.0
+
+# Google BigQuery
+google-cloud-bigquery>=3.4.0
+google-auth>=2.15.0
+google-auth-oauthlib>=0.8.0
+
+# Amazon Redshift
+redshift-connector>=2.0.0
+boto3>=1.26.0
+botocore>=1.29.0
+
+# Azure Synapse
+pyodbc>=4.0.35
+azure-identity>=1.12.0
+azure-synapse-artifacts>=0.15.0
+
+# PostgreSQL
+psycopg2-binary>=2.9.5
+asyncpg>=0.27.0
+
+# MySQL
+PyMySQL>=1.0.2
+aiomysql>=0.1.1
+
+# Oracle
+cx-Oracle>=8.3.0
+oracledb>=1.2.0
+
+# MongoDB
+pymongo>=4.3.0
+motor>=3.1.0
+
+# Cloud Provider SDKs
+# AWS
+boto3>=1.26.0
+aioboto3>=11.2.0
+
+# Azure
+azure-storage-blob>=12.14.0
+azure-identity>=1.12.0
+azure-mgmt-datafactory>=2.0.0
+azure-servicebus>=7.8.0
+
+# Google Cloud Platform
+google-cloud-storage>=2.7.0
+google-cloud-pubsub>=2.15.0
+google-cloud-dataflow-client>=0.8.0
+
+# BI Tool Connectors
+# Tableau
+tableauserverclient>=0.25.0
+
+# Power BI
+msal>=1.20.0
+adal>=1.2.7
+
+# Looker
+looker-sdk>=22.20.0
+
+# Message Queue Systems
+# Apache Kafka
+kafka-python>=2.0.2
+aiokafka>=0.8.8
+
+# RabbitMQ
+pika>=1.3.1
+aio-pika>=9.0.0
+
+# Data Catalogs
+# Apache Atlas
+pyatlasclient>=1.0.0
+
+# Authentication Systems
+# LDAP
+python-ldap>=3.4.0
+ldap3>=2.9.1
+
+# SAML
+python3-saml>=1.15.0
+
+# OAuth
+authlib>=1.2.0
+oauthlib>=3.2.2
+
+# JWT
+PyJWT>=2.6.0
+
+# Monitoring and Observability
+# Prometheus
+prometheus-client>=0.15.0
+
+# InfluxDB
+influxdb-client>=1.36.0
+
+# Elasticsearch
+elasticsearch>=8.6.0
+
+# Data Processing and Transformation
+pandas>=1.5.0
+numpy>=1.24.0
+pyarrow>=10.0.0
+
+# Configuration and Serialization
+pyyaml>=6.0
+toml>=0.10.2
+configparser>=5.3.0
+
+# Encryption and Security
+cryptography>=3.4.8
+keyring>=23.13.0
+python-jose>=3.3.0
+
+# Networking and Protocols
+# gRPC
+grpcio>=1.51.0
+grpcio-tools>=1.51.0
+
+# GraphQL
+graphql-core>=3.2.0
+gql>=3.4.0
+
+# XML Processing (for Tableau, SAML)
+lxml>=4.9.0
+xmltodict>=0.13.0
+
+# JSON Processing
+jsonschema>=4.17.0
+jsonpath-ng>=1.5.3
+
+# Caching
+redis>=4.5.0
+memcached>=1.59
+
+# Task Scheduling and Background Jobs
+celery>=5.2.0
+rq>=1.12.0
+
+# Database Connection Pooling
+sqlalchemy>=1.4.46
+alembic>=1.9.0
+
+# Retry and Circuit Breaker
+tenacity>=8.1.0
+pybreaker>=0.8.0
+
+# Rate Limiting
+ratelimit>=2.2.1
+
+# Health Checks
+healthcheck>=1.3.3
+
+# Logging and Structured Logging
+structlog>=22.3.0
+python-json-logger>=2.0.4
+
+# Environment and Configuration Management
+python-dotenv>=0.21.0
+environs>=9.5.0
+
+# Testing (for integration tests)
+pytest>=7.2.0
+pytest-asyncio>=0.20.3
+pytest-mock>=3.10.0
+responses>=0.22.0
+aioresponses>=0.7.4
+
+# Development and Code Quality
+black>=22.12.0
+flake8>=6.0.0
+mypy>=0.991
+isort>=5.11.0
+
+# Documentation
+sphinx>=5.3.0
+sphinx-rtd-theme>=1.1.1
+
+# Performance Monitoring
+psutil>=5.9.0
+memory-profiler>=0.61.0
+
+# Timezone Handling
+pytz>=2022.7
+python-dateutil>=2.8.2
+
+# UUID and Hashing
+uuid>=1.30
+hashlib2>=1.0.1
+
+# File System Operations
+pathlib2>=2.3.7
+watchdog>=2.2.0
+
+# Compression
+gzip>=1.0
+zstandard>=0.19.0
+
+# Protocol Buffers (for some enterprise systems)
+protobuf>=4.21.0
+
+# Enterprise SSO Integration
+python-saml>=1.15.0
+okta>=2.7.0
+
+# Data Quality and Validation
+great-expectations>=0.15.0
+cerberus>=1.3.4
+
+# Workflow and Pipeline Integration
+apache-airflow>=2.5.0
+prefect>=2.7.0
+
+# Version Control Integration (for Looker, dbt)
+GitPython>=3.1.30
+
+# Enterprise Monitoring Integration
+datadog>=0.45.0
+newrelic>=8.5.0
+
+# Container and Kubernetes Integration
+kubernetes>=25.3.0
+docker>=6.0.0
+
+# Enterprise Backup and Recovery
+duplicity>=0.8.23

@@ -1,0 +1,328 @@
+# DataLineagePy Enterprise Security Configuration
+# This file contains the security configuration for DataLineagePy
+# Sensitive values should be set via environment variables
+
+# Security Level: development, staging, production
+security_level: production
+debug_mode: false
+
+# JWT Configuration
+jwt_config:
+  secret_key: ${JWT_SECRET_KEY}  # Set via environment variable
+  algorithm: HS256
+  access_token_expire_minutes: 30
+  refresh_token_expire_days: 7
+  issuer: "DataLineagePy"
+  audience: "datalineage-api"
+
+# Multi-Factor Authentication
+mfa_config:
+  enabled: true
+  issuer_name: "DataLineagePy Enterprise"
+  backup_codes_count: 10
+  rate_limit_attempts: 5
+  rate_limit_window_minutes: 15
+
+# Single Sign-On Configuration
+sso_config:
+  enabled: true
+  providers:
+    saml:
+      enabled: true
+      entity_id: "datalineagepy-saml"
+      sso_url: "https://sso.company.com/saml/login"
+      x509_cert_path: "/etc/ssl/certs/saml.crt"
+    oauth2:
+      enabled: true
+      providers:
+        - name: "google"
+          client_id: ${GOOGLE_CLIENT_ID}
+          client_secret: ${GOOGLE_CLIENT_SECRET}
+          authorization_url: "https://accounts.google.com/o/oauth2/auth"
+          token_url: "https://oauth2.googleapis.com/token"
+          userinfo_url: "https://www.googleapis.com/oauth2/v2/userinfo"
+        - name: "azure"
+          client_id: ${AZURE_CLIENT_ID}
+          client_secret: ${AZURE_CLIENT_SECRET}
+          tenant_id: ${AZURE_TENANT_ID}
+          authorization_url: "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/authorize"
+          token_url: "https://login.microsoftonline.com/{tenant}/oauth2/v2.0/token"
+    ldap:
+      enabled: true
+      server: "ldap://ad.company.com:389"
+      bind_dn: "CN=service-account,OU=Service Accounts,DC=company,DC=com"
+      bind_password: ${LDAP_BIND_PASSWORD}
+      search_base: "OU=Users,DC=company,DC=com"
+      user_filter: "(sAMAccountName={username})"
+      group_filter: "(member={user_dn})"
+
+# Role-Based Access Control
+rbac_config:
+  enabled: true
+  default_role: "viewer"
+  role_hierarchy:
+    admin:
+      inherits_from: []
+      permissions:
+        - "system.*"
+        - "users.*"
+        - "lineage.*"
+        - "reports.*"
+        - "audit.*"
+    data_engineer:
+      inherits_from: ["data_analyst"]
+      permissions:
+        - "lineage.read"
+        - "lineage.write"
+        - "lineage.delete"
+        - "reports.generate"
+        - "pipelines.*"
+    data_analyst:
+      inherits_from: ["viewer"]
+      permissions:
+        - "lineage.read"
+        - "reports.generate"
+        - "dashboards.*"
+    viewer:
+      inherits_from: []
+      permissions:
+        - "lineage.read"
+        - "dashboards.read"
+
+# Policy-Based Authorization
+policy_config:
+  enabled: true
+  default_effect: "deny"
+  policies:
+    - name: "business_hours_access"
+      description: "Allow access only during business hours"
+      priority: 100
+      conditions:
+        - attribute: "time.hour"
+          operator: ">="
+          value: 9
+        - attribute: "time.hour"
+          operator: "<="
+          value: 17
+        - attribute: "time.weekday"
+          operator: "<"
+          value: 5
+      effect: "allow"
+    
+    - name: "sensitive_data_protection"
+      description: "Restrict access to sensitive data"
+      priority: 200
+      conditions:
+        - attribute: "resource.classification"
+          operator: "=="
+          value: "sensitive"
+        - attribute: "user.clearance_level"
+          operator: ">="
+          value: 3
+      effect: "allow"
+    
+    - name: "admin_weekend_access"
+      description: "Allow admin access on weekends"
+      priority: 150
+      conditions:
+        - attribute: "user.role"
+          operator: "=="
+          value: "admin"
+        - attribute: "time.weekday"
+          operator: ">="
+          value: 5
+      effect: "allow"
+
+# Encryption Configuration
+encryption_config:
+  algorithm: "AES-256-GCM"
+  key_size: 32
+  key_rotation_days: 90
+  master_key: ${MASTER_ENCRYPTION_KEY}  # Set via environment variable
+  vault_integration:
+    enabled: true
+    vault_url: ${VAULT_URL}
+    vault_token: ${VAULT_TOKEN}
+    vault_namespace: ${VAULT_NAMESPACE}
+    key_path: "secret/datalineage/keys"
+    auth_method: "approle"
+    role_id: ${VAULT_ROLE_ID}
+    secret_id: ${VAULT_SECRET_ID}
+  field_encryption:
+    enabled: true
+    encrypted_fields:
+      - "email"
+      - "phone"
+      - "ssn"
+      - "credit_card"
+      - "salary"
+      - "performance_rating"
+
+# Audit Configuration
+audit_config:
+  enabled: true
+  log_level: "INFO"
+  storage_backend: "file"
+  file_storage:
+    log_directory: "/var/log/datalineage/audit"
+    max_file_size_mb: 100
+    max_files: 100
+    rotation_interval_hours: 24
+  database_storage:
+    enabled: false
+    connection_string: ${AUDIT_DB_CONNECTION}
+    table_name: "audit_events"
+  event_types:
+    - "AUTHENTICATION"
+    - "AUTHORIZATION"
+    - "DATA_ACCESS"
+    - "DATA_MODIFICATION"
+    - "SECURITY_EVENT"
+    - "COMPLIANCE_EVENT"
+    - "SYSTEM_EVENT"
+    - "ERROR_EVENT"
+  retention_days: 2555  # 7 years for compliance
+  integrity_verification: true
+  async_processing: true
+  queue_size: 10000
+
+# API Security Configuration
+api_security_config:
+  rate_limiting_enabled: true
+  default_rate_limit_per_minute: 100
+  default_rate_limit_per_hour: 1000
+  default_rate_limit_per_day: 10000
+  endpoint_specific_limits:
+    "/api/auth/login":
+      requests_per_minute: 10
+      requests_per_hour: 50
+      requests_per_day: 200
+    "/api/lineage/export":
+      requests_per_minute: 5
+      requests_per_hour: 20
+      requests_per_day: 100
+  
+  cors_enabled: true
+  allowed_origins:
+    - "https://datalineage.company.com"
+    - "https://admin.datalineage.company.com"
+  allowed_methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allowed_headers:
+    - "Content-Type"
+    - "Authorization"
+    - "X-Requested-With"
+    - "X-API-Key"
+  
+  input_validation:
+    enabled: true
+    max_request_size_mb: 10
+    max_json_depth: 10
+    scan_for_attacks: true
+    blocked_patterns:
+      - "<script"
+      - "javascript:"
+      - "SELECT.*FROM"
+      - "UNION.*SELECT"
+      - "../"
+      - "cmd.exe"
+      - "/bin/sh"
+  
+  ip_filtering:
+    enabled: true
+    blocked_ips: []
+    allowed_ips: []
+    blocked_countries: ["CN", "RU", "KP"]
+    whitelist_mode: false
+  
+  security_headers:
+    enabled: true
+    headers:
+      "X-Content-Type-Options": "nosniff"
+      "X-Frame-Options": "DENY"
+      "X-XSS-Protection": "1; mode=block"
+      "Strict-Transport-Security": "max-age=31536000; includeSubDomains"
+      "Content-Security-Policy": "default-src 'self'"
+      "Referrer-Policy": "strict-origin-when-cross-origin"
+
+# Compliance Configuration
+compliance_config:
+  gdpr_enabled: true
+  sox_enabled: true
+  hipaa_enabled: false
+  pci_dss_enabled: false
+  iso27001_enabled: true
+  nist_enabled: true
+  
+  data_retention_days: 2555  # 7 years
+  data_classification:
+    enabled: true
+    levels:
+      - "public"
+      - "internal"
+      - "confidential"
+      - "restricted"
+      - "top_secret"
+  
+  privacy_settings:
+    anonymization_enabled: true
+    pseudonymization_enabled: true
+    right_to_be_forgotten: true
+    data_portability: true
+    consent_management: true
+  
+  breach_notification:
+    enabled: true
+    notification_email: "security@company.com"
+    notification_webhook: "https://security.company.com/webhook/breach"
+    auto_notification_threshold: "high"
+
+# Redis Configuration (for caching and sessions)
+redis_config:
+  host: ${REDIS_HOST:-localhost}
+  port: ${REDIS_PORT:-6379}
+  password: ${REDIS_PASSWORD}
+  database: 0
+  ssl_enabled: false
+  connection_pool_size: 10
+  socket_timeout: 5
+  health_check_interval: 30
+
+# Monitoring and Alerting
+monitoring_config:
+  enabled: true
+  metrics_enabled: true
+  health_checks_enabled: true
+  alerting:
+    enabled: true
+    webhook_url: ${ALERTING_WEBHOOK_URL}
+    email_notifications: true
+    email_recipients:
+      - "security@company.com"
+      - "devops@company.com"
+    alert_thresholds:
+      failed_auth_attempts: 10
+      failed_auth_window_minutes: 5
+      api_error_rate_percent: 5
+      api_response_time_ms: 2000
+      key_rotation_overdue_days: 7
+
+# Development and Testing
+development:
+  mock_external_services: false
+  bypass_mfa: false
+  log_sensitive_data: false
+  disable_rate_limiting: false
+  allow_insecure_connections: false
+
+# Feature Flags
+feature_flags:
+  advanced_threat_detection: true
+  behavioral_analytics: true
+  zero_trust_architecture: true
+  quantum_safe_encryption: false
+  ai_powered_anomaly_detection: true

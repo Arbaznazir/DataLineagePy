@@ -1,0 +1,45 @@
+{% set name = "datalineagepy" %}
+{% set version = load_file_regex('pyproject.toml', 'version = "(.*?)"') %}
+
+package:
+  name: {{ name|lower }}
+  version: {{ version }}
+
+source:
+  path: ..
+
+build:
+  noarch: python
+  script: pip install .
+
+dependencies:
+  - python >=3.8
+  - pip
+  - pandas >=1.3.0
+  - numpy >=1.21.0
+  - matplotlib >=3.3.0
+  - networkx >=2.6.0
+  - tqdm >=4.60.0
+  - psutil >=5.8.0
+  - plotly >=5.0.0
+  - flask >=2.0.0
+  - requests >=2.25.0
+  - PyJWT >=2.4.0
+  - cryptography >=3.4.0
+  - redis >=4.0.0
+  - pyarrow >=13.0.0
+  - Pillow >=10.0.0
+  - jinja2 >=3.1.0
+  - pyyaml >=6.0.1
+  - scikit-learn >=1.0.0
+
+test:
+  imports:
+    - datalineagepy
+  commands:
+    - python -c "import datalineagepy; print(datalineagepy.__version__)"
+
+about:
+  home: https://github.com/Arbaznazir/DataLineagePy
+  license: MIT
+  summary: "Enterprise-grade Python data lineage tracking library."

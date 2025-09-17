@@ -1,0 +1,40 @@
+# DataLineagePy Monitoring Dependencies
+# Additional dependencies for enterprise monitoring capabilities
+
+# Web Framework for Dashboard
+flask>=2.3.0
+werkzeug>=2.3.0
+
+# Data Visualization
+plotly>=5.15.0
+
+# HTTP Requests for Exporters
+requests>=2.31.0
+
+# System Monitoring
+psutil>=5.9.0
+
+# Optional: External System Integration
+# Uncomment as needed for specific deployments
+
+# Prometheus Client (for metrics export)
+# prometheus-client>=0.17.0
+
+# InfluxDB Client (for time-series data)
+# influxdb-client>=1.37.0
+
+# Elasticsearch Client (for log aggregation)
+# elasticsearch>=8.8.0
+
+# Email Support (usually built-in)
+# smtplib is part of Python standard library
+
+# Slack Integration
+# slack-sdk>=3.21.0
+
+# PagerDuty Integration  
+# pypd>=1.1.0
+
+# Additional Utilities
+python-dateutil>=2.8.0
+pytz>=2023.3

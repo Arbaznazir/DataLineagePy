@@ -342,4 +342,8 @@ config.local.*
 
 # ================================
 # End of .gitignore
-# ================================ 
+# ================================
+# Project-specific test/example data
+test_data.csv
+test_sqlite.db
+examples/notebooks/

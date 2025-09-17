@@ -5,334 +5,278 @@
 This comprehensive guide covers all installation methods for DataLineagePy, from quick development setup to enterprise production deployments.
 
 > **📅 Last Updated**: June 19, 2025  
-> **🔧 Supported Platforms**: Windows, macOS, Linux  
-> **🐍 Python Versions**: 3.8, 3.9, 3.10, 3.11, 3.12
+> **🔧 Supported Platforms**: Windows, macOS, Linux
+
+# � DataLineagePy 3.0 — Installation Guide
 
 ---
 
-## 📋 **System Requirements**
+<div align="center">
+<img src="https://raw.githubusercontent.com/Arbaznazir/DataLineagePy/main/docs/assets/logo.png" alt="DataLineagePy Logo" width="120"/>
+</div>
 
-### **Minimum Requirements**
+<h2 align="center">💾 Professional, Beautiful, and Effortless Installation</h2>
 
-- **Python**: 3.8+ (3.9+ recommended)
-- **Memory**: 512MB RAM
-- **Storage**: 100MB free space
-- **Operating System**: Windows 10+, macOS 10.14+, Linux (any modern distribution)
-
-### **Recommended for Production**
-
-- **Python**: 3.11+ (optimal performance)
-- **Memory**: 2GB+ RAM
-- **Storage**: 1GB+ free space
-- **CPU**: 2+ cores
-- **Network**: Stable internet connection for package downloads
-
-### **Enterprise Production Requirements**
-
-- **Python**: 3.11+
-- **Memory**: 4GB+ RAM
-- **Storage**: 5GB+ free space
-- **CPU**: 4+ cores
-- **Network**: High-speed connection
-- **Security**: Python virtual environment isolation
+<p align="center">
+<b>Get started with DataLineagePy in minutes — from local development to enterprise production.</b><br>
+<i>All platforms, all Python versions, all features. No headaches.</i>
+</p>
 
 ---
 
-## 🚀 **Quick Installation (Recommended)**
+## 📋 System Requirements
 
-### **Option 1: PyPI Installation**
+| Environment | Python | Memory | Storage | CPU    | OS/Platform                  |
+| ----------- | ------ | ------ | ------- | ------ | ---------------------------- |
+| Minimum     | 3.8+   | 512MB  | 100MB   | 1 core | Win 10+, macOS 10.14+, Linux |
+| Recommended | 3.11+  | 2GB    | 1GB     | 2+     | All modern distros           |
+| Enterprise  | 3.11+  | 4GB+   | 5GB+    | 4+     | Hardened, isolated           |
+
+---
+
+## 🚀 Quick Installation (All Platforms)
+
+### 1. PyPI (Recommended)
 
 ```bash
-# Basic installation
 pip install datalineagepy
-
-# Verify installation
-python -c "import datalineagepy; print(f'DataLineagePy v{datalineagepy.__version__} installed successfully!')"
+python -c "import datalineagepy; print(f'DataLineagePy v{datalineagepy.__version__} installed!')"
 ```
 
-### **Option 2: With Optional Dependencies**
+### 2. With Optional Features
 
 ```bash
-# Installation with visualization support
+# Visualization support
 pip install datalineagepy[viz]
-
-# Installation with all optional features
+# All features
 pip install datalineagepy[all]
-
-# Installation with development tools
+# Dev tools
 pip install datalineagepy[dev]
 ```
 
-### **Option 3: Latest Development Version**
+### 3. Latest Development Version
 
 ```bash
-# Install latest development version
 pip install git+https://github.com/Arbaznazir/DataLineagePy.git
-
-# Or specific branch
+# Or a specific branch
 pip install git+https://github.com/Arbaznazir/DataLineagePy.git@development
 ```
 
 ---
 
-## 🛠️ **Detailed Installation Methods**
+## 🛠️ Professional Installation Methods
 
-### **Method 1: Virtual Environment Setup (Recommended)**
+### A. Virtual Environment (Best Practice)
 
-#### **For Windows:**
+#### Windows
 
 ```powershell
-# Create project directory
 mkdir my_datalineage_project
 cd my_datalineage_project
-
-# Create virtual environment
 python -m venv datalineage_env
-
-# Activate virtual environment
 datalineage_env\Scripts\activate
-
-# Install DataLineagePy
 pip install datalineagepy
-
-# Verify installation
-python -c "import datalineagepy; print('Installation successful!')"
+python -c "import datalineagepy; print('Success!')"
 ```
 
-#### **For macOS/Linux:**
+#### macOS/Linux
 
 ```bash
-# Create project directory
 mkdir my_datalineage_project
 cd my_datalineage_project
-
-# Create virtual environment
 python3 -m venv datalineage_env
-
-# Activate virtual environment
 source datalineage_env/bin/activate
-
-# Install DataLineagePy
 pip install datalineagepy
-
-# Verify installation
-python -c "import datalineagepy; print('Installation successful!')"
+python -c "import datalineagepy; print('Success!')"
 ```
 
-### **Method 2: Conda Installation**
+### B. Conda Environment
 
 ```bash
-# Create conda environment
 conda create -n datalineage python=3.11
 conda activate datalineage
-
-# Install DataLineagePy via pip (recommended)
 pip install datalineagepy
-
-# Or install from conda-forge (coming soon)
-# conda install -c conda-forge datalineagepy
+# (Coming soon) conda install -c conda-forge datalineagepy
 ```
 
-### **Method 3: Docker Installation**
-
-#### **Quick Docker Run:**
+### C. Docker (Enterprise/Cloud)
 
 ```bash
-# Pull official image
 docker pull datalineagepy/datalineagepy:latest
-
-# Run interactive session
 docker run -it datalineagepy/datalineagepy:latest python
-
-# Run with volume mount for persistence
 docker run -it -v $(pwd):/workspace datalineagepy/datalineagepy:latest
 ```
 
-#### **Custom Dockerfile:**
+#### Custom Dockerfile
 
 ```dockerfile
-# Dockerfile for your project
 FROM python:3.11-slim
-
-# Set working directory
 WORKDIR /app
-
-# Install DataLineagePy
 RUN pip install datalineagepy
-
-# Copy your application
 COPY . .
-
-# Run your application
 CMD ["python", "your_lineage_script.py"]
 ```
 
-### **Method 4: Development Installation**
+### D. Development Installation
 
 ```bash
-# Clone repository
 git clone https://github.com/Arbaznazir/DataLineagePy.git
 cd DataLineagePy
-
-# Create development environment
 python -m venv dev_env
-source dev_env/bin/activate  # Windows: dev_env\Scripts\activate
-
-# Install in development mode
+# Windows: dev_env\Scripts\activate
+# macOS/Linux: source dev_env/bin/activate
 pip install -e .
-
-# Install development dependencies
 pip install -e .[dev]
-
-# Run tests to verify
 pytest tests/
 ```
 
 ---
 
-## 🔧 **Configuration & Setup**
+## 🔧 Configuration & Best Practices
 
-### **Basic Configuration**
+### Basic Configuration
 
-Create a configuration file `datalineage_config.py`:
+Create `datalineage_config.py`:
 
 ```python
-# datalineage_config.py
 DATALINEAGE_CONFIG = {
-    "default_tracker_name": "my_pipeline",
-    "enable_performance_monitoring": True,
-    "enable_memory_optimization": True,
-    "export_format": "json",
-    "visualization_backend": "matplotlib",
-    "log_level": "INFO"
+  "default_tracker_name": "my_pipeline",
+  # ...other options...
+  "log_level": "INFO"
 }
 ```
 
-### **Environment Variables**
+### Environment Variables
 
 ```bash
-# Optional environment variables
 export DATALINEAGE_DEFAULT_TRACKER="production_pipeline"
 export DATALINEAGE_ENABLE_MONITORING="true"
 export DATALINEAGE_LOG_LEVEL="INFO"
 export DATALINEAGE_EXPORT_PATH="/data/lineage"
 ```
 
-### **Advanced Configuration**
+### Advanced Configuration
 
 ```python
-# advanced_config.py
 from datalineagepy import LineageTracker
-
-# Enterprise configuration
 tracker = LineageTracker(
-    name="enterprise_pipeline",
-    config={
-        "memory_optimization": True,
-        "performance_monitoring": True,
-        "enable_validation": True,
-        "enable_security": True,
-        "audit_trail": True,
-        "export_formats": ["json", "csv", "excel"],
-        "visualization": {
-            "backend": "plotly",
-            "interactive": True,
-            "theme": "enterprise"
-        },
-        "monitoring": {
-            "enable_alerts": True,
-            "memory_threshold_mb": 1000,
-            "performance_threshold_ms": 500
-        }
-    }
+  name="enterprise_pipeline",
+  # ...advanced options...
 )
 ```
 
 ---
 
-## ✅ **Installation Verification**
+## ✅ Installation Verification
 
-### **Basic Verification**
+### Basic Verification
 
 ```python
-# verify_installation.py
 import datalineagepy
 import pandas as pd
-
 print(f"✅ DataLineagePy Version: {datalineagepy.__version__}")
-print("✅ Core imports successful")
-
-# Test basic functionality
 from datalineagepy import LineageTracker, LineageDataFrame
-
-# Create test tracker
 tracker = LineageTracker(name="test_tracker")
-print("✅ LineageTracker created successfully")
-
-# Create test DataFrame
 df = pd.DataFrame({'test': [1, 2, 3]})
 ldf = LineageDataFrame(df, name="test_data", tracker=tracker)
-print("✅ LineageDataFrame created successfully")
-
-# Test basic operation
 result = ldf.filter(ldf._df['test'] > 1)
-print("✅ Basic operations working")
-
-print("\n🎉 DataLineagePy installation verified successfully!")
+print("🎉 Installation verified!")
 ```
 
-### **Advanced Verification**
+### Advanced Verification
 
 ```python
-# advanced_verification.py
 import datalineagepy
 from datalineagepy import LineageTracker, LineageDataFrame
 from datalineagepy.core.analytics import DataProfiler
 from datalineagepy.core.validation import DataValidator
 from datalineagepy.visualization import GraphVisualizer
 import pandas as pd
+tracker = LineageTracker(name="verification_test")
+df = pd.DataFrame({
+  'id': [1, 2, 3, 4, 5],
+  # ...
+  'category': ['A', 'B', 'A', 'B', 'A']
+})
+ldf = LineageDataFrame(df, name="test_data", tracker=tracker)
+```
+
+---
+
+## 🛡️ Troubleshooting & FAQ
+
+### Common Issues
+
+| Problem               | Solution                                                         |
+| --------------------- | ---------------------------------------------------------------- |
+| `ModuleNotFoundError` | Ensure you activated your environment and installed the package. |
+| Permission denied     | Run terminal/IDE as admin or check file permissions.             |
+| Python version error  | Use `python --version` to check, upgrade if needed.              |
+| Dependency conflict   | Use a fresh virtual environment.                                 |
+| Docker networking     | Use `--network host` or check firewall settings.                 |
+
+### Best Practices
+
+- Always use a virtual environment for isolation
+- Pin your dependencies for reproducible builds
+- For enterprise, use Docker or Conda for maximum reproducibility
+- Keep DataLineagePy updated for latest features and security
+- See [FAQ](faq.md) for more troubleshooting
+
+---
+
+<p align="center">
+<b>Need help? See the <a href="faq.md">FAQ</a> or <a href="https://github.com/Arbaznazir/DataLineagePy/issues">open an issue</a>.</b>
+</p>
 
 print("🔍 Running comprehensive verification...")
 
 # Test core functionality
+
 tracker = LineageTracker(name="verification_test")
 df = pd.DataFrame({
-    'id': [1, 2, 3, 4, 5],
-    'value': [10, 20, 30, 40, 50],
-    'category': ['A', 'B', 'A', 'B', 'A']
+'id': [1, 2, 3, 4, 5],
+'value': [10, 20, 30, 40, 50],
+'category': ['A', 'B', 'A', 'B', 'A']
 })
 ldf = LineageDataFrame(df, name="test_data", tracker=tracker)
 
 # Test operations
-filtered = ldf.filter(ldf._df['value'] > 25)
+
+filtered = ldf.filter(ldf.\_df['value'] > 25)
 grouped = filtered.groupby('category').agg({'value': 'sum'})
 print("✅ Data operations working")
 
 # Test analytics
+
 profiler = DataProfiler()
 profile = profiler.profile_dataset(ldf)
 print(f"✅ Data profiling working - Quality score: {profile.get('quality_score', 'N/A')}")
 
 # Test validation
+
 validator = DataValidator()
 rules = {'completeness': {'threshold': 0.8}}
 validation_result = validator.validate_dataframe(ldf, rules)
 print("✅ Data validation working")
 
 # Test visualization
+
 try:
-    visualizer = GraphVisualizer(tracker)
-    print("✅ Visualization module loaded")
+visualizer = GraphVisualizer(tracker)
+print("✅ Visualization module loaded")
 except ImportError as e:
-    print(f"⚠️  Visualization dependencies missing: {e}")
-    print("   Install with: pip install datalineagepy[viz]")
+print(f"⚠️ Visualization dependencies missing: {e}")
+print(" Install with: pip install datalineagepy[viz]")
 
 # Test export
+
 lineage_data = tracker.export_lineage()
 print("✅ Lineage export working")
 
 print("\n🎉 All advanced features verified successfully!")
-```
+
+````
 
 ### **Performance Verification**
 
@@ -385,7 +329,7 @@ else:
     print("⚠️  Performance: Consider optimization")
 
 print("\n🎉 Performance verification completed!")
-```
+````
 
 ---
 

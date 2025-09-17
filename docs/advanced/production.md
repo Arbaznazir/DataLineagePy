@@ -1,3 +1,212 @@
+# Real-Time Collaboration
+
+DataLineagePy now supports real-time collaboration for lineage editing and viewing using a simple WebSocket-based server and client.
+
+## Example: Real-Time Collaboration
+
+```python
+# Start the server (in one terminal)
+from datalineagepy.collaboration.realtime_collaboration import CollaborationServer
+CollaborationServer().run()
+
+# Start a client (in another terminal)
+from datalineagepy.collaboration.realtime_collaboration import CollaborationClient
+CollaborationClient().run()
+```
+
+See `examples/realtime_collaboration_demo.py` for a full working demo.
+
+**Features:**
+
+- Real-time state sharing for lineage graphs
+- WebSocket-based server and client
+- Easy to extend for collaborative editing
+- Integrates with all DataLineagePy features
+
+---
+
+# Version Control / Lineage Versioning
+
+DataLineagePy now supports versioning, rollback, and diff utilities for lineage graphs.
+
+## Example: Lineage Versioning
+
+```python
+from datalineagepy.core.tracker import LineageTracker
+from datalineagepy.core.lineage_versioning import LineageVersionManager
+
+tracker = LineageTracker(name="versioning_demo")
+version_mgr = LineageVersionManager()
+
+# Simulate lineage changes
+tracker.create_node("data", "dataset_v1")
+version_mgr.save_version(tracker.export_graph())
+tracker.create_node("data", "dataset_v2")
+version_mgr.save_version(tracker.export_graph())
+
+# List versions
+print("Available versions:", version_mgr.list_versions())
+
+# Diff versions
+print("Diff v1 to v2:", version_mgr.diff_versions(0, 1))
+
+# Rollback
+restored = version_mgr.rollback(0)
+print("Rolled back to version 1. Node names:", [n['name'] for n in restored['nodes']])
+```
+
+See `examples/lineage_versioning_example.py` for a full working demo.
+
+**Features:**
+
+- Save, list, and rollback lineage graph versions
+- Diff between any two versions
+- Integrates with all DataLineagePy features
+
+---
+
+# Custom Connector SDK
+
+DataLineagePy now provides a production-ready SDK for building custom data connectors with full lineage tracking.
+
+## Example: Custom Connector
+
+```python
+from datalineagepy.connectors.custom_connector_sdk import BaseCustomConnector
+
+class MyCSVConnector(BaseCustomConnector):
+    def connect(self, file_path):
+        self.file_path = file_path
+        print(f"Connected to CSV file: {file_path}")
+
+    def execute(self, operation: str, *args, **kwargs):
+        if operation == "read":
+            with open(self.file_path, "r") as f:
+                data = f.read()
+            node = self.tracker.create_node("csv_read", self.file_path)
+            node.add_metadata("operation", operation)
+            return data
+        else:
+            raise NotImplementedError(f"Operation '{operation}' not supported.")
+
+    def close(self):
+        print("Connection closed.")
+
+# Usage
+connector = MyCSVConnector(name="csv_connector_demo")
+connector.connect("test_data.csv")
+data = connector.execute("read")
+print("Read data:", data[:50], "...")
+connector.close()
+print("Exported lineage:", connector.export_lineage())
+```
+
+See `examples/custom_connector_example.py` for a full working demo.
+
+**Features:**
+
+- Easy base class for custom connectors
+- Full lineage tracking for all operations
+- Simple export of lineage graph
+- Integrates with all DataLineagePy features
+
+---
+
+# Monitoring & Alerting Integrations
+
+DataLineagePy now includes production-ready monitoring and alerting integrations for Slack and Email.
+
+## Example: Monitoring & Alerting
+
+```python
+from datalineagepy.core.performance import PerformanceMonitor
+from datalineagepy.alerting.integrations import send_slack_alert, send_email_alert
+from datalineagepy.core.tracker import LineageTracker
+import os
+
+tracker = LineageTracker(name="alerting_demo")
+monitor = PerformanceMonitor(tracker)
+
+def slow_op():
+    import time; time.sleep(2)
+    return "done"
+
+monitor.start_monitoring()
+monitor.time_operation("slow_op", slow_op)
+monitor.stop_monitoring()
+summary = monitor.get_performance_summary()
+
+# Send Slack alert if operation is slow
+slack_webhook = os.getenv("SLACK_WEBHOOK_URL")
+if slack_webhook and summary['total_execution_time'] > 1.0:
+    send_slack_alert(slack_webhook, f"[ALERT] Slow operation detected: {summary['total_execution_time']:.2f}s")
+
+# Send Email alert if memory usage is high
+smtp_server = os.getenv("SMTP_SERVER")
+smtp_port = int(os.getenv("SMTP_PORT", "465"))
+sender = os.getenv("ALERT_EMAIL_SENDER")
+password = os.getenv("ALERT_EMAIL_PASSWORD")
+recipient = os.getenv("ALERT_EMAIL_RECIPIENT")
+if sender and password and recipient and summary['current_memory_usage'] > 100:
+    send_email_alert(smtp_server, smtp_port, sender, password, recipient,
+                    "[ALERT] High Memory Usage",
+                    f"Current memory usage: {summary['current_memory_usage']:.2f} MB")
+```
+
+See `examples/monitoring_alerting_demo.py` for a full working demo.
+
+**Features:**
+
+- Performance monitoring for all operations
+- Slack alerting via webhook
+- Email alerting via SMTP
+- Easy integration with production workflows
+
+---
+
+# Advanced Security: RBAC & Encryption
+
+DataLineagePy provides enterprise-grade security with full Role-Based Access Control (RBAC) and at-rest encryption using AES-256-GCM with master key management.
+
+## RBAC Example
+
+```python
+from datalineagepy.security.rbac import RBACManager
+rbac = RBACManager()
+rbac.add_role('admin', ['read', 'write', 'delete'])
+rbac.add_role('analyst', ['read'])
+rbac.add_user('alice', ['admin'])
+rbac.add_user('bob', ['analyst'])
+print('Alice can write:', rbac.check_access('alice', 'write'))  # True
+print('Bob can write:', rbac.check_access('bob', 'write'))      # False
+```
+
+## Encryption Example
+
+```python
+import os
+from datalineagepy.security.encryption.data_encryption import EncryptionManager
+os.environ['MASTER_ENCRYPTION_KEY'] = 'supersecretkey1234567890123456'  # 32 chars for AES-256
+enc_mgr = EncryptionManager()
+secret = "Sensitive DataLineagePy data!"
+encrypted = enc_mgr.encrypt_sensitive_data(secret)
+decrypted = enc_mgr.decrypt_sensitive_data(encrypted)
+print('Original:', secret)
+print('Encrypted:', encrypted)
+print('Decrypted:', decrypted)
+```
+
+See `examples/security_rbac_encryption_demo.py` for a full working demo.
+
+**Features:**
+
+- Role-based access control (RBAC) for users and roles
+- AES-256-GCM encryption with master key and key rotation
+- Field-level encryption and compliance-ready audit trail
+- Easy integration with all DataLineagePy backends
+
+---
+
 # Production Deployment Guide
 
 ## 🚀 Enterprise Production Deployment

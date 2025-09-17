@@ -1,635 +1,278 @@
-# 🚀 DataLineagePy
+# 🚀 DataLineagePy 3.0
 
-## 🌟 **ENTERPRISE DATA LINEAGE TRACKING - PRODUCTION READY**
+**Enterprise-Grade Python Data Lineage Tracking**
 
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Production Ready](https://img.shields.io/badge/status-production%20ready-green.svg)](https://github.com/Arbaznazir/DataLineagePy)
 [![Performance Score](https://img.shields.io/badge/performance-92.1%2F100-brightgreen.svg)](https://github.com/Arbaznazir/DataLineagePy)
-[![Memory Optimization](https://img.shields.io/badge/memory-100%2F100%20perfect-success.svg)](https://github.com/Arbaznazir/DataLineagePy)
 [![Enterprise Grade](https://img.shields.io/badge/enterprise-grade%20ready-gold.svg)](https://github.com/Arbaznazir/DataLineagePy)
 
-**The world's most advanced Python data lineage tracking library** - now with **enterprise-grade performance**, **perfect memory optimization**, and **comprehensive documentation**.
+---
 
-> **🎯 Last Updated**: June 19, 2025  
-> **📊 Overall Project Score**: 92.1/100  
-> **🏆 Status**: Production Ready for Enterprise Deployment
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Arbaznazir/DataLineagePy/main/docs/assets/logo.png" width="180" alt="DataLineagePy Logo"/>
+  <h2>Beautiful, Powerful, and Effortless Data Lineage for Python</h2>
+  <p>Track, visualize, and govern your data pipelines with zero friction.</p>
+</div>
 
 ---
 
-## 📋 **Table of Contents**
+## 🌟 Why DataLineagePy?
 
-- [🚀 Quick Start](#-quick-start)
-- [💾 Installation](#-installation)
-- [📚 Core Features](#-core-features)
-- [🔧 Usage Guide](#-usage-guide)
-- [📊 Performance Benchmarks](#-performance-benchmarks)
-- [🏢 Enterprise Features](#-enterprise-features)
-- [📖 Documentation](#-documentation)
-- [🤝 Contributing](#-contributing)
-- [📄 License](#-license)
+- **Automatic, column-level lineage tracking** for all pandas DataFrames
+- **Enterprise performance**: memory-optimized, scalable, and production-ready
+- **Stunning visualizations**: interactive dashboards, HTML, PNG, SVG, and more
+- **Plug-and-play connectors**: MySQL, PostgreSQL, SQLite, and custom sources
+- **Security & compliance**: RBAC, AES-256 encryption, audit trails
+- **Real-time collaboration**: WebSocket server/client for team workflows
+- **ML/AI pipeline tracking**: Full auditability for machine learning steps
+- **Cloud-native deployment**: Docker, Kubernetes, Helm, Terraform
 
 ---
 
-## 🚀 **Quick Start**
+## 📋 Table of Contents
 
-Get up and running with DataLineagePy in 30 seconds:
+- [Quick Start](#quick-start)
+- [Installation](#installation)
+- [Core Features](#core-features)
+- [Usage Guide](#usage-guide)
+- [Database Connectors](#database-connectors)
+- [Visualization & Reporting](#visualization--reporting)
+- [Performance Monitoring](#performance-monitoring)
+- [Security & Compliance](#security--compliance)
+- [ML/AI Pipeline Tracking](#mlai-pipeline-tracking)
+- [Enterprise Deployment](#enterprise-deployment)
+- [Use Cases](#use-cases)
+- [Documentation](#documentation)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Installation
+---
+
+## 🚀 Quick Start
 
 ```bash
-# Install from PyPI (recommended)
 pip install datalineagepy
-
-# Or install from source
-git clone https://github.com/Arbaznazir/DataLineagePy.git
-cd DataLineagePy
-pip install -e .
 ```
-
-### Basic Usage
 
 ```python
 from datalineagepy import LineageTracker, LineageDataFrame
 import pandas as pd
 
-# Initialize tracker
-tracker = LineageTracker(name="my_pipeline")
-
-# Create sample data
-df = pd.DataFrame({
-    'product_id': [1, 2, 3, 4, 5],
-    'sales': [100, 200, 300, 400, 500],
-    'region': ['North', 'South', 'East', 'West', 'Central']
-})
-
-# Wrap DataFrame for automatic lineage tracking
-ldf = LineageDataFrame(df, name="sales_data", tracker=tracker)
-
-# Perform operations - lineage is tracked automatically!
-high_sales = ldf.filter(ldf._df['sales'] > 250)
-regional_summary = high_sales.groupby('region').agg({'sales': 'sum'})
-
-# Visualize the complete lineage
-tracker.visualize()
-
-# Export lineage data
-tracker.export_lineage("my_pipeline_lineage.json")
-```
-
-**Result**: Complete data lineage tracking with zero configuration required!
-
----
-
-## 💾 **Installation**
-
-### System Requirements
-
-- **Python**: 3.8+ (3.9+ recommended for optimal performance)
-- **Operating System**: Windows, macOS, Linux
-- **Memory**: Minimum 512MB RAM (2GB+ recommended for large datasets)
-- **Dependencies**: pandas, numpy, matplotlib (automatically installed)
-
-### Installation Methods
-
-#### 1. PyPI Installation (Recommended)
-
-```bash
-# Basic installation
-pip install datalineagepy
-
-# With visualization dependencies
-pip install datalineagepy[viz]
-
-# With all optional dependencies
-pip install datalineagepy[all]
-```
-
-#### 2. Development Installation
-
-```bash
-# Clone repository
-git clone https://github.com/Arbaznazir/DataLineagePy.git
-cd DataLineagePy
-
-# Create virtual environment
-python -m venv datalineage_env
-source datalineage_env/bin/activate  # On Windows: datalineage_env\Scripts\activate
-
-# Install in development mode
-pip install -e .
-
-# Install development dependencies
-pip install -e .[dev]
-```
-
-#### 3. Docker Installation
-
-```bash
-# Pull official image
-docker pull datalineagepy/datalineagepy:latest
-
-# Run interactive session
-docker run -it datalineagepy/datalineagepy:latest python
-```
-
-#### 4. Conda Installation
-
-```bash
-# Install from conda-forge (coming soon)
-conda install -c conda-forge datalineagepy
-```
-
-### Verification
-
-```python
-import datalineagepy
-print(f"DataLineagePy Version: {datalineagepy.__version__}")
-print("Installation successful!")
+df = pd.DataFrame({'a': [1, 2, 3], 'b': [4, 5, 6]})
+tracker = LineageTracker(name="demo")
+ldf = LineageDataFrame(df, name="my_df", tracker=tracker)
+ldf2 = ldf.filter(ldf._df['a'] > 1)
+ldf3 = ldf2.assign(c=ldf2._df['a'] + ldf2._df['b'])
+tracker.visualize()  # Interactive HTML dashboard
+tracker.export_lineage("lineage.json")
 ```
 
 ---
 
-## 📚 **Core Features**
+## 💾 Installation
 
-### 🔍 **Automatic Lineage Tracking**
+- **PyPI**: `pip install datalineagepy`
+- **With visualization**: `pip install datalineagepy[viz]`
+- **All features**: `pip install datalineagepy[all]`
+- **Conda**: `conda install -c conda-forge datalineagepy` _(coming soon)_
+- **Docker**: `docker pull datalineagepy/datalineagepy:latest`
 
-- **Column-level precision**: Track data transformations at the granular column level
-- **Operation history**: Complete audit trail of all data operations
-- **Zero configuration**: Works out-of-the-box with existing pandas code
-- **Real-time tracking**: Immediate lineage updates as operations execute
-
-### ⚡ **Enterprise Performance**
-
-- **Perfect memory optimization**: 100/100 score with zero memory leaks
-- **Acceptable overhead**: 76-165% with full lineage tracking included
-- **Linear scaling**: Confirmed performance scaling for production workloads
-- **4x more features**: Compared to pure pandas alternatives
-
-### 🛠️ **Advanced Analytics**
-
-- **Data profiling**: Comprehensive quality scoring and analysis
-- **Statistical analysis**: Built-in hypothesis testing and correlation analysis
-- **Time series**: Decomposition and anomaly detection capabilities
-- **Data validation**: 5+ built-in validation rules plus custom rule support
-
-### 📊 **Visualization & Reporting**
-
-- **Interactive dashboards**: Beautiful HTML reports with lineage graphs
-- **Multiple export formats**: JSON, DOT, CSV, Excel, and more
-- **Real-time monitoring**: Live performance and lineage dashboards
-- **AI-ready exports**: Structured data for machine learning pipelines
-
-### 🏢 **Enterprise Features**
-
-- **Production deployment**: Docker, Kubernetes, and cloud-ready
-- **Security & compliance**: PII masking and audit trail capabilities
-- **Monitoring & alerting**: Built-in performance monitoring
-- **Multi-format export**: Integration with enterprise data tools
+See [Installation Guide](docs/installation.md) for advanced and enterprise setup.
 
 ---
 
-## 🔧 **Usage Guide**
+## 📚 Core Features
 
-### Basic Operations
+- **Automatic lineage tracking** for pandas DataFrames
+- **Data validation**: completeness, uniqueness, range, custom rules
+- **Profiling & analytics**: quality scoring, missing data, correlations
+- **Visualization**: HTML, PNG, SVG, interactive dashboards
+- **Performance monitoring**: execution time, memory, alerts
+- **Security**: RBAC, AES-256 encryption, audit trail
+- **Custom connectors**: SDK for any data source
+- **Versioning**: save, diff, rollback lineage graphs
+- **Collaboration**: real-time editing/viewing
+- **ML/AI pipeline tracking**: AutoMLTracker for full auditability
 
-#### Creating a Lineage Tracker
+---
 
-```python
-from datalineagepy import LineageTracker
+## 🔧 Usage Guide
 
-# Basic tracker
-tracker = LineageTracker(name="data_pipeline")
-
-# Advanced configuration
-tracker = LineageTracker(
-    name="enterprise_pipeline",
-    config={
-        "memory_optimization": True,
-        "performance_monitoring": True,
-        "enable_validation": True,
-        "export_format": "json"
-    }
-)
-```
-
-#### Working with DataFrames
+### 1. Lineage Tracking
 
 ```python
-from datalineagepy import LineageDataFrame
+from datalineagepy import LineageTracker, LineageDataFrame
 import pandas as pd
-
-# Create DataFrame
-df = pd.DataFrame({
-    'customer_id': [1, 2, 3, 4, 5],
-    'order_value': [100, 250, 175, 320, 450],
-    'region': ['US', 'EU', 'APAC', 'US', 'EU']
-})
-
-# Wrap for lineage tracking
-ldf = LineageDataFrame(df, name="customer_orders", tracker=tracker)
-
-# All pandas operations work normally
-filtered = ldf.filter(ldf._df['order_value'] > 200)
-grouped = filtered.groupby('region').agg({'order_value': ['sum', 'mean', 'count']})
-sorted_data = grouped.sort_values(('order_value', 'sum'), ascending=False)
+tracker = LineageTracker(name="my_pipeline")
+df = pd.DataFrame({'x': [1,2,3], 'y': [4,5,6]})
+ldf = LineageDataFrame(df, name="input", tracker=tracker)
+ldf2 = ldf.assign(z=ldf._df['x'] + ldf._df['y'])
+print(tracker.export_graph())
 ```
 
-### Advanced Operations
-
-#### Data Validation
+### 2. Data Validation
 
 ```python
 from datalineagepy.core.validation import DataValidator
-
-# Setup validation
-validator = DataValidator()
-
-# Define validation rules
-rules = {
-    'completeness': {'threshold': 0.95},
-    'uniqueness': {'columns': ['customer_id']},
-    'range_check': {'column': 'order_value', 'min': 0, 'max': 10000}
-}
-
-# Validate data
+validator = DataValidator(tracker)
+rules = {'completeness': {'threshold': 0.9}, 'uniqueness': {'columns': ['x']}}
 results = validator.validate_dataframe(ldf, rules)
-print(f"Validation score: {results['overall_score']:.1%}")
+print(results)
 ```
 
-#### Analytics and Profiling
+### 3. Profiling & Analytics
 
 ```python
 from datalineagepy.core.analytics import DataProfiler
-
-# Profile dataset
-profiler = DataProfiler()
+profiler = DataProfiler(tracker)
 profile = profiler.profile_dataset(ldf, include_correlations=True)
-
-print(f"Data quality score: {profile['quality_score']:.1f}")
-print(f"Missing data: {profile['missing_percentage']:.1%}")
+print(profile)
 ```
 
-#### Custom Operations and Hooks
+### 4. Visualization & Reporting
 
 ```python
-# Define custom operation
-def custom_transformation(data):
-    """Custom business logic transformation."""
-    return data.assign(
-        order_category=lambda x: x['order_value'].apply(
-            lambda val: 'High' if val > 300 else 'Medium' if val > 150 else 'Low'
-        )
-    )
-
-# Register custom hook
-tracker.add_operation_hook('custom_transform', custom_transformation)
-
-# Use custom operation
-result = ldf.apply_custom_operation('custom_transform')
-```
-
-### Export and Visualization
-
-#### Generate Reports
-
-```python
-# Interactive HTML dashboard
-tracker.generate_dashboard("lineage_report.html", include_details=True)
-
-# Export lineage data
-lineage_data = tracker.export_lineage()
-
-# Multiple format export
-tracker.export_to_formats(
-    base_path="reports/",
-    formats=['json', 'csv', 'excel']
-)
-```
-
-#### Advanced Visualization
-
-```python
-from datalineagepy.visualization import GraphVisualizer
-
-# Create visualizer
+from datalineagepy.visualization.graph_visualizer import GraphVisualizer
 visualizer = GraphVisualizer(tracker)
-
-# Generate different view types
-visualizer.create_column_lineage_graph("column_lineage.png")
-visualizer.create_operation_flow_diagram("operation_flow.svg")
-visualizer.create_data_pipeline_overview("pipeline_overview.html")
+visualizer.generate_html("lineage.html")
+visualizer.generate_png("lineage.png")
 ```
 
-### Performance Monitoring
+### 5. Performance Monitoring
 
 ```python
 from datalineagepy.core.performance import PerformanceMonitor
-
-# Enable performance monitoring
 monitor = PerformanceMonitor(tracker)
 monitor.start_monitoring()
-
-# Your data operations here
-result = ldf.complex_operations()
-
-# Get performance summary
-summary = monitor.get_performance_summary()
-print(f"Average execution time: {summary['average_execution_time']:.3f}s")
-print(f"Memory usage: {summary['current_memory_usage']:.1f}MB")
+_ = ldf._df.sum()
+monitor.stop_monitoring()
+print(monitor.get_performance_summary())
 ```
 
----
-
-## 📊 **Performance Benchmarks**
-
-### 🏆 **Enterprise Testing Results** (June 2025)
-
-DataLineagePy has undergone comprehensive enterprise-grade testing with exceptional results:
-
-**Overall Performance Score: 92.1/100** ⭐
-
-| Component                 | Score    | Status          |
-| ------------------------- | -------- | --------------- |
-| **Core Performance**      | 75.4/100 | ✅ Excellent    |
-| **Memory Optimization**   | 100/100  | ✅ Perfect      |
-| **Competitive Analysis**  | 87.5/100 | ✅ Outstanding  |
-| **Documentation Quality** | 94.2/100 | ✅ Professional |
-
-### Competitive Comparison
-
-| Metric                    | DataLineagePy    | Pandas  | Great Expectations | OpenLineage     | Apache Atlas   |
-| ------------------------- | ---------------- | ------- | ------------------ | --------------- | -------------- |
-| **Total Features**        | **16**           | 4       | 7                  | 5               | 8              |
-| **Setup Time**            | **<1 second**    | <1 sec  | 5-10 min           | 30-60 min       | Hours-Days     |
-| **Memory Optimization**   | **100/100**      | N/A     | Unknown            | Unknown         | Unknown        |
-| **Infrastructure Cost**   | **$0**           | $0      | Minimal            | $36K-$180K/year | $200K-$1M/year |
-| **Column-level Tracking** | **✅ Automatic** | ❌ None | ❌ None            | ⚠️ Manual       | ✅ Complex     |
-
-### Speed Performance
-
-```
-Performance Tests (June 2025):
-┌─────────────┬─────────────────┬────────────┬─────────────┬────────────────┐
-│ Dataset Size│ DataLineagePy   │ Pandas     │ Overhead    │ Lineage Nodes  │
-├─────────────┼─────────────────┼────────────┼─────────────┼────────────────┤
-│ 1,000 rows  │ 0.0025s        │ 0.0010s    │ 148.1%      │ 3 created      │
-│ 5,000 rows  │ 0.0030s        │ 0.0030s    │ -0.5%       │ 3 created      │
-│ 10,000 rows │ 0.0045s        │ 0.0042s    │ 76.2%       │ 3 created      │
-└─────────────┴─────────────────┴────────────┴─────────────┴────────────────┘
-```
-
-**Key Results:**
-
-- **Acceptable overhead** for comprehensive lineage tracking
-- **Linear scaling** confirmed for production workloads
-- **Perfect memory optimization** with zero leaks detected
-- **4x more features** than competing solutions
-
----
-
-## 🏢 **Enterprise Features**
-
-### Production Deployment
-
-#### Docker Support
-
-```dockerfile
-# Use official DataLineagePy image
-FROM datalineagepy/datalineagepy:latest
-
-# Copy your application
-COPY . /app
-WORKDIR /app
-
-# Run your pipeline
-CMD ["python", "production_pipeline.py"]
-```
-
-#### Kubernetes Deployment
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: datalineage-pipeline
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: datalineage-pipeline
-  template:
-    metadata:
-      labels:
-        app: datalineage-pipeline
-    spec:
-      containers:
-        - name: datalineage
-          image: datalineagepy/datalineagepy:latest
-          env:
-            - name: LINEAGE_ENV
-              value: "production"
-          resources:
-            requests:
-              memory: "512Mi"
-              cpu: "250m"
-            limits:
-              memory: "2Gi"
-              cpu: "1000m"
-```
-
-### Monitoring and Alerting
+### 6. Security & Compliance
 
 ```python
-from datalineagepy.monitoring import ProductionMonitor
+from datalineagepy.security.rbac import RBACManager
+rbac = RBACManager()
+rbac.add_role('admin', ['read', 'write'])
+rbac.add_user('alice', ['admin'])
+print(rbac.check_access('alice', 'write'))
 
-# Setup production monitoring
-monitor = ProductionMonitor(
-    tracker=tracker,
-    alert_thresholds={
-        'memory_usage_mb': 1000,
-        'operation_time_ms': 500,
-        'error_rate_percent': 0.1
-    }
-)
-
-# Enable real-time alerts
-monitor.enable_slack_alerts(webhook_url="your-slack-webhook")
-monitor.enable_email_alerts(smtp_config="your-smtp-config")
+from datalineagepy.security.encryption.data_encryption import EncryptionManager
+import os
+os.environ['MASTER_ENCRYPTION_KEY'] = 'supersecretkey1234567890123456'
+enc_mgr = EncryptionManager()
+secret = 'Sensitive Data'
+encrypted = enc_mgr.encrypt_sensitive_data(secret)
+decrypted = enc_mgr.decrypt_sensitive_data(encrypted)
+print(decrypted)
 ```
 
-### Security and Compliance
+### 7. Database Connectors
 
 ```python
-# Enable PII masking
-tracker.enable_pii_masking(
-    patterns=['email', 'phone', 'ssn'],
-    replacement_strategy='hash'
-)
-
-# Audit trail configuration
-tracker.configure_audit_trail(
-    retention_period='7_years',
-    encryption=True,
-    compliance_standard='GDPR'
-)
+from datalineagepy.connectors.database.mysql_connector import MySQLConnector
+from datalineagepy.core import LineageTracker
+db_config = {'host': 'localhost', 'user': 'root', 'password': 'password', 'database': 'test_db'}
+tracker = LineageTracker()
+conn = MySQLConnector(**db_config, lineage_tracker=tracker)
+conn.execute_query('SELECT * FROM test_table')
+conn.close()
 ```
 
----
-
-## 📖 **Documentation**
-
-### Complete Documentation Suite
-
-- **📚 [User Guide](https://github.com/Arbaznazir/DataLineagePy/tree/main/docs/user-guide)** - Comprehensive usage instructions
-- **🔧 [API Reference](https://github.com/Arbaznazir/DataLineagePy/tree/main/docs/api)** - Complete method documentation
-- **🚀 [Quick Start](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/quickstart.md)** - 30-second setup guide
-- **🏢 [Enterprise Guide](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/advanced/production.md)** - Production deployment patterns
-- **📊 [Performance Benchmarks](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/benchmarks/performance.md)** - Detailed performance analysis
-- **🥊 [Competitive Analysis](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/benchmarks/comparison.md)** - vs other solutions
-- **❓ [FAQ](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/faq.md)** - Frequently asked questions
-
-### Examples and Tutorials
-
-- **[Basic Usage Examples](https://github.com/Arbaznazir/DataLineagePy/tree/main/examples)** - Simple getting started examples
-- **[Advanced Features](https://github.com/Arbaznazir/DataLineagePy/tree/main/examples/advanced)** - Enterprise feature demonstrations
-- **[Production Patterns](https://github.com/Arbaznazir/DataLineagePy/tree/main/examples/production)** - Real-world deployment examples
-- **[Integration Examples](https://github.com/Arbaznazir/DataLineagePy/tree/main/examples/integrations)** - Third-party tool integration
-
-### API Documentation
-
-All methods are fully documented with examples:
+### 8. ML/AI Pipeline Tracking
 
 ```python
-# Complete method documentation available
-help(LineageDataFrame.filter)
-help(LineageTracker.export_lineage)
-help(DataValidator.validate_dataframe)
+from datalineagepy import AutoMLTracker
+tracker = AutoMLTracker(name='ml_pipeline')
+tracker.log_step('fit', model='LogisticRegression', params={'solver': 'lbfgs'})
+tracker.log_step('predict', model='LogisticRegression')
+print(tracker.export_ai_ready_format())
 ```
 
 ---
 
-## 🎯 **Use Cases**
+## 📊 Visualization & Reporting
 
-### Data Science Teams
-
-- **Research Reproducibility**: Complete operation history for reproducible research
-- **Jupyter Integration**: Seamless notebook workflows with automatic documentation
-- **Experiment Tracking**: Track data transformations across multiple experiments
-- **Collaboration**: Share lineage information across team members
-
-### Enterprise ETL
-
-- **Production Pipelines**: Monitor and track complex data transformations
-- **Data Quality**: Built-in validation and quality scoring
-- **Compliance**: Audit trails for regulatory requirements
-- **Performance Monitoring**: Real-time pipeline performance tracking
-
-### Data Governance
-
-- **Impact Analysis**: Understand downstream effects of data changes
-- **Data Discovery**: Find data sources and transformation logic
-- **Compliance Reporting**: Generate regulatory compliance reports
-- **Data Documentation**: Automatic documentation of data flows
+- **Interactive HTML dashboards**: `tracker.visualize()`
+- **Export formats**: JSON, DOT, PNG, SVG, Excel, CSV
+- **Custom visualizations**: Use `GraphVisualizer` for advanced needs
 
 ---
 
-## 🚀 **Getting Started Checklist**
+## 🗄️ Database Connectors
 
-- [ ] **Install DataLineagePy**: `pip install datalineagepy`
-- [ ] **Read Quick Start**: [https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/quickstart.md](https://github.com/Arbaznazir/DataLineagePy/blob/main/docs/quickstart.md)
-- [ ] **Try Basic Example**: Run the 30-second example above
-- [ ] **Explore Documentation**: Browse the complete [documentation](https://github.com/Arbaznazir/DataLineagePy/tree/main/docs)
-- [ ] **Check Examples**: Look at [examples](https://github.com/Arbaznazir/DataLineagePy/tree/main/examples) for your use case
-- [ ] **Join Community**: Star the repo and follow updates
+- **MySQL, PostgreSQL, SQLite**: Full lineage tracking for every query
+- **Custom connectors**: Build your own with the SDK
+- See [Database Connectors Guide](docs/user-guide/database-connectors.md)
 
 ---
 
-## 🤝 **Contributing**
+## ⚡ Performance Monitoring
 
-We welcome contributions! DataLineagePy is built with enterprise standards and community collaboration.
-
-### How to Contribute
-
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Make your changes**: Follow our coding standards
-4. **Add tests**: Ensure 100% test coverage
-5. **Update documentation**: Document all new features
-6. **Submit a pull request**: We'll review promptly
-
-### Development Setup
-
-```bash
-# Clone and setup development environment
-git clone https://github.com/Arbaznazir/DataLineagePy.git
-cd DataLineagePy
-
-# Create virtual environment
-python -m venv dev_env
-source dev_env/bin/activate  # Windows: dev_env\Scripts\activate
-
-# Install development dependencies
-pip install -e .[dev]
-
-# Run tests
-pytest
-
-# Run linting
-flake8 datalineagepy/
-black datalineagepy/
-```
-
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines.
+- **Track execution time, memory, and operation stats**
+- **Alerting**: Slack, Email, custom hooks
+- **Production monitoring**: Integrate with Prometheus, Grafana, etc.
 
 ---
 
-## 📊 **Project Statistics**
+## 🔒 Security & Compliance
 
-- **📅 Project Started**: March 2025
-- **📅 Production Ready**: June 19, 2025
-- **📊 Lines of Code**: 15,000+ production-ready
-- **🧪 Test Coverage**: 100%
-- **📖 Documentation Pages**: 25+ comprehensive guides
-- **⭐ Performance Score**: 92.1/100
-- **🏆 Enterprise Ready**: ✅ Full certification
+- **RBAC**: Role-based access control for users and actions
+- **AES-256 encryption**: At-rest and in-transit data protection
+- **Audit trail**: Full operation history for compliance
 
 ---
 
-## 📄 **License**
+## 🤖 ML/AI Pipeline Tracking
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 🎊 **Acknowledgments**
-
-DataLineagePy is built with ❤️ and represents the culmination of extensive research, development, and testing to create the world's most advanced Python data lineage tracking library.
-
-**Special Thanks:**
-
-- The pandas development team for the foundation
-- The Python data science community for inspiration
-- Enterprise users for valuable feedback and requirements
-- Open source contributors who make projects like this possible
+- **AutoMLTracker**: Log, audit, and export every ML pipeline step
+- **Explainability**: Export pipeline steps for downstream analysis
 
 ---
 
-## 📞 **Support & Contact**
+## ☁️ Enterprise Deployment
 
-- **📧 Email**: arbaznazir4@gmail.com
-- **💬 GitHub Discussions**: [Discussions](https://github.com/Arbaznazir/DataLineagePy/discussions)
-- **🐛 Bug Reports**: [Issues](https://github.com/Arbaznazir/DataLineagePy/issues)
-- **�� Documentation**: [https://github.com/Arbaznazir/DataLineagePy/tree/main/docs](https://github.com/Arbaznazir/DataLineagePy/tree/main/docs)
-- **💻 Source Code**: [GitHub](https://github.com/Arbaznazir/DataLineagePy)
+- **Docker, Kubernetes, Helm, Terraform**: Cloud-native ready
+- **Production scripts**: See `deploy/` for examples
+
+---
+
+## 💡 Use Cases
+
+- **Data science**: Reproducibility, experiment tracking, Jupyter integration
+- **Enterprise ETL**: Production pipelines, data quality, compliance
+- **Data governance**: Impact analysis, documentation, audit trails
+- **ML/AI**: Pipeline explainability, model audit, feature tracking
+
+---
+
+## 📖 Documentation
+
+- [User Guide](docs/user-guide/)
+- [API Reference](docs/api/)
+- [Quick Start](docs/quickstart.md)
+- [Enterprise Guide](docs/advanced/production.md)
+- [FAQ](docs/faq.md)
+- [Examples](examples/)
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+---
+
+## 📄 License
+
+MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
 <div align="center">
-
-**Built with exceptional engineering excellence**  
-**Ready to transform data lineage tracking worldwide** 🌍
-
-[![Star History Chart](https://api.star-history.com/svg?repos=Arbaznazir/DataLineagePy&type=Date)](https://star-history.com/#Arbaznazir/DataLineagePy&Date)
-
+  <b>DataLineagePy 3.0 &mdash; The new standard for Python data lineage</b><br/>
+  <i>Beautiful. Powerful. Effortless.</i>
 </div>

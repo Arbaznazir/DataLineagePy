@@ -2,6 +2,108 @@
 
 Complete collection of real-world scenarios demonstrating DataLineagePy in action across different industries and use cases.
 
+---
+
+## 🌐 All-in-One Enterprise Data Pipeline Example (Every Feature)
+
+This scenario demonstrates every major feature of DataLineagePy in a single, end-to-end workflow:
+
+```python
+import pandas as pd
+import numpy as np
+import os
+from datalineagepy import LineageTracker, LineageDataFrame, AutoMLTracker
+from datalineagepy.core.validation import DataValidator
+from datalineagepy.core.analytics import DataProfiler
+from datalineagepy.visualization import GraphVisualizer
+from datalineagepy.core.performance import PerformanceMonitor
+from datalineagepy.security.rbac import RBACManager
+from datalineagepy.security.encryption.data_encryption import EncryptionManager
+from datalineagepy.connectors.database.mysql_connector import MySQLConnector
+
+# 1. Security & RBAC
+rbac = RBACManager()
+rbac.add_role('admin', ['read', 'write', 'delete'])
+rbac.add_user('alice', ['admin'])
+assert rbac.check_access('alice', 'write')
+
+# 2. Encryption
+os.environ['MASTER_ENCRYPTION_KEY'] = 'supersecretkey1234567890123456'
+enc_mgr = EncryptionManager()
+secret = 'Sensitive Data'
+encrypted = enc_mgr.encrypt_sensitive_data(secret)
+decrypted = enc_mgr.decrypt_sensitive_data(encrypted)
+assert decrypted == secret
+
+# 3. Tracker & DataFrame
+tracker = LineageTracker(name="all_in_one_pipeline")
+df = pd.DataFrame({
+    'user_id': range(1, 6),
+    'score': [88, 92, 79, 85, 90],
+    'region': ['US', 'EU', 'APAC', 'US', 'EU']
+})
+ldf = LineageDataFrame(df, name="users", tracker=tracker)
+
+# 4. Data Validation
+validator = DataValidator(tracker)
+rules = {'completeness': {'threshold': 0.9}, 'uniqueness': {'columns': ['user_id']}}
+validation_results = validator.validate_dataframe(ldf, rules)
+
+# 5. Profiling & Analytics
+profiler = DataProfiler(tracker)
+profile = profiler.profile_dataset(ldf)
+
+# 6. Performance Monitoring
+monitor = PerformanceMonitor(tracker)
+monitor.start_monitoring()
+_ = ldf._df['score'].mean()
+monitor.stop_monitoring()
+perf_summary = monitor.get_performance_summary()
+
+# 7. Visualization
+visualizer = GraphVisualizer(tracker)
+visualizer.generate_html("all_in_one_lineage.html")
+
+# 8. Database Connector (MySQL)
+# (Assume a running MySQL instance for demo)
+# db_config = {'host': 'localhost', 'user': 'root', 'password': 'password', 'database': 'test_db'}
+# conn = MySQLConnector(**db_config, lineage_tracker=tracker)
+# conn.execute_query('CREATE TABLE IF NOT EXISTS test_table (id INT PRIMARY KEY, score INT)')
+# conn.execute_query('INSERT INTO test_table (id, score) VALUES (%s, %s)', (1, 100))
+# result = conn.execute_query('SELECT * FROM test_table')
+# conn.close()
+
+# 9. ML/AI Pipeline Tracking
+automl = AutoMLTracker(name="ml_pipeline")
+automl.log_step("fit", model="LogisticRegression", params={"solver": "lbfgs"})
+automl.log_step("predict", model="LogisticRegression")
+ml_export = automl.export_ai_ready_format()
+
+# 10. Versioning
+from datalineagepy.core.lineage_versioning import LineageVersionManager
+version_mgr = LineageVersionManager()
+version_mgr.save_version(tracker.export_graph())
+ldf2 = ldf.assign(score2=ldf._df['score'] * 2)
+version_mgr.save_version(tracker.export_graph())
+assert len(version_mgr.list_versions()) == 2
+
+# 11. Real-time Collaboration (API demo)
+# from datalineagepy.collaboration.realtime_collaboration import CollaborationServer, CollaborationClient
+# CollaborationServer().run()  # In one process
+# CollaborationClient().run()  # In another process
+
+# 12. Exporting
+tracker.export_lineage("all_in_one_lineage.json")
+tracker.export_to_formats(base_path="exports/", formats=['json', 'csv', 'excel'])
+
+# 13. Dashboard
+tracker.generate_dashboard("all_in_one_dashboard.html")
+
+print("All major features demonstrated in a single workflow!")
+```
+
+---
+
 ## 🏪 E-Commerce Analytics Pipeline
 
 ### Scenario: Online Retail Data Processing
@@ -1070,6 +1172,56 @@ These real-world scenarios demonstrate DataLineagePy's capabilities across:
 4. **Quality Assurance** - Built-in validation and monitoring
 5. **Performance at Scale** - Handling thousands of operations
 6. **Audit Trails** - Complete documentation for compliance
+
+---
+
+## 🤝 Contributing: Real-World Examples
+
+Want to help improve DataLineagePy? Here are practical ways to contribute:
+
+### 🐞 1. Fixing a Bug
+
+**Scenario:** You find a bug in the lineage export function.
+
+**How to contribute:**
+
+1. Fork the repository and clone your fork.
+2. Create a new branch: `git checkout -b fix-lineage-export`
+3. Edit the relevant file (e.g., `datalineagepy/core/tracker.py`) and fix the bug.
+4. Add or update a test in `tests/` to cover the bug.
+5. Run all tests: `pytest tests/`
+6. Commit and push your changes.
+7. Open a pull request with a clear description of the fix.
+
+### 📝 2. Improving Documentation
+
+**Scenario:** You notice the quickstart guide is missing a step.
+
+**How to contribute:**
+
+1. Edit the relevant Markdown file (e.g., `docs/quickstart.md`).
+2. Add the missing step or clarify instructions.
+3. Preview your changes locally (Markdown preview in VS Code).
+4. Commit and push your changes.
+5. Open a pull request describing the documentation improvement.
+
+### ✨ 3. Adding a New Feature
+
+**Scenario:** You want to add a new export format (e.g., Parquet).
+
+**How to contribute:**
+
+1. Open an issue to discuss your idea with maintainers.
+2. Fork and branch: `git checkout -b feature-export-parquet`
+3. Implement the feature in the appropriate module (e.g., `datalineagepy/core/export.py`).
+4. Add tests for the new feature in `tests/`.
+5. Update documentation to include the new export option.
+6. Run all tests and ensure coverage.
+7. Commit, push, and open a pull request with details and usage examples.
+
+---
+
+For more details, see the [CONTRIBUTING.md](../../CONTRIBUTING.md) guide.
 
 Each scenario shows how DataLineagePy automatically tracks every transformation, maintains regulatory compliance, and provides the detailed documentation needed for production data systems.
 

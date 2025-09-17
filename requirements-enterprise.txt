@@ -1,0 +1,64 @@
+# DataLineagePy Enterprise Requirements
+# Core dependencies
+pandas>=1.5.0
+numpy>=1.21.0
+networkx>=2.8.0
+plotly>=5.0.0
+flask>=2.0.0
+
+# Multi-tenancy and Authentication
+PyJWT>=2.4.0
+bcrypt>=3.2.0
+cryptography>=3.4.0
+
+# Infrastructure and Monitoring
+psutil>=5.8.0
+requests>=2.25.0
+urllib3>=1.26.0
+
+# NLP and Text Processing
+scikit-learn>=1.0.0
+nltk>=3.7.0
+spacy>=3.4.0
+
+# Database and Storage
+sqlalchemy>=1.4.0
+sqlite3  # Built-in with Python
+pymongo>=4.0.0
+redis>=4.0.0
+
+# Cloud and Enterprise Integrations
+boto3>=1.20.0  # AWS
+azure-storage-blob>=12.0.0  # Azure
+google-cloud-storage>=2.0.0  # GCP
+snowflake-connector-python>=2.7.0
+databricks-sql-connector>=2.0.0
+
+# Streaming and Real-time
+kafka-python>=2.0.0
+pika>=1.2.0  # RabbitMQ
+
+# Monitoring and Observability
+prometheus-client>=0.12.0
+influxdb-client>=1.24.0
+elasticsearch>=7.15.0
+
+# API and Web
+fastapi>=0.70.0
+uvicorn>=0.15.0
+pydantic>=1.8.0
+
+# Testing and Development
+pytest>=6.2.0
+pytest-cov>=3.0.0
+black>=21.0.0
+flake8>=4.0.0
+
+# Documentation
+sphinx>=4.0.0
+sphinx-rtd-theme>=1.0.0
+
+# Optional ML dependencies
+torch>=1.10.0
+transformers>=4.15.0
+sentence-transformers>=2.1.0

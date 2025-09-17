@@ -1,0 +1,165 @@
+# DataLineagePy Compliance Requirements
+# Dependencies for GDPR, SOX, HIPAA, and other compliance features
+
+# Core Python libraries (usually included)
+# dataclasses - for structured data classes
+# enum - for enumeration types
+# threading - for thread-safe operations
+# uuid - for unique identifiers
+# time - for timestamps
+# datetime - for date/time operations
+# logging - for audit logging
+# json - for data serialization
+# abc - for abstract base classes
+
+# Cryptography for data protection
+cryptography>=41.0.0
+pycryptodome>=3.19.0
+
+# Data validation and serialization
+pydantic>=2.5.0
+marshmallow>=3.20.0
+
+# Database support for audit logs
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+
+# Optional: PostgreSQL support
+psycopg2-binary>=2.9.0
+
+# Optional: MySQL support
+pymysql>=1.1.0
+
+# Optional: SQLite (included in Python standard library)
+
+# Data encryption and hashing
+bcrypt>=4.1.0
+passlib>=1.7.4
+
+# JWT tokens for authentication
+pyjwt>=2.8.0
+
+# HTTP client for external integrations
+requests>=2.31.0
+urllib3>=2.1.0
+
+# Configuration management
+pyyaml>=6.0.1
+python-dotenv>=1.0.0
+
+# Date/time utilities
+python-dateutil>=2.8.2
+pytz>=2023.3
+
+# Data processing utilities
+pandas>=2.1.0  # Optional: for data analysis
+numpy>=1.24.0  # Optional: for numerical operations
+
+# Monitoring and metrics (optional)
+prometheus-client>=0.19.0
+statsd>=4.0.1
+
+# Email notifications (optional)
+smtplib  # Built-in
+email-validator>=2.1.0
+
+# Web framework for compliance dashboard (optional)
+flask>=3.0.0
+flask-cors>=4.0.0
+
+# Template engine (optional)
+jinja2>=3.1.0
+
+# Testing dependencies (development)
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-mock>=3.12.0
+mock>=5.1.0
+
+# Code quality (development)
+black>=23.12.0
+flake8>=6.1.0
+mypy>=1.8.0
+
+# Documentation (development)
+sphinx>=7.2.0
+sphinx-rtd-theme>=2.0.0
+
+# Security scanning (development)
+bandit>=1.7.5
+safety>=2.3.0
+
+# Performance testing (development)
+locust>=2.17.0
+
+# API documentation (optional)
+flask-restx>=1.3.0
+swagger-ui-bundle>=0.0.9
+
+# Data anonymization (optional)
+faker>=21.0.0
+anonymizedf>=1.0.0
+
+# Compliance reporting (optional)
+reportlab>=4.0.0  # PDF generation
+openpyxl>=3.1.0   # Excel generation
+matplotlib>=3.8.0 # Charts and graphs
+seaborn>=0.13.0   # Statistical visualizations
+
+# Workflow automation (optional)
+celery>=5.3.0     # Task queue
+redis>=5.0.0      # Message broker
+
+# Cloud storage (optional)
+boto3>=1.34.0     # AWS S3
+azure-storage-blob>=12.19.0  # Azure Blob
+google-cloud-storage>=2.10.0 # Google Cloud Storage
+
+# Backup and archival (optional)
+tarfile  # Built-in
+zipfile  # Built-in
+gzip     # Built-in
+
+# Network security (optional)
+paramiko>=3.4.0   # SSH connections
+pyopenssl>=23.3.0 # SSL/TLS
+
+# LDAP integration (optional)
+python-ldap>=3.4.0
+ldap3>=2.9.1
+
+# SAML authentication (optional)
+python3-saml>=1.15.0
+
+# OAuth integration (optional)
+authlib>=1.3.0
+oauthlib>=3.2.2
+
+# Audit log analysis (optional)
+elasticsearch>=8.11.0
+loguru>=0.7.2
+
+# Data lineage visualization (optional)
+networkx>=3.2.1
+graphviz>=0.20.1
+
+# Configuration validation
+cerberus>=1.3.5
+schema>=0.7.5
+
+# Internationalization (optional)
+babel>=2.14.0
+gettext  # Built-in
+
+# Performance monitoring (optional)
+psutil>=5.9.0
+memory-profiler>=0.61.0
+
+# Compliance standards documentation
+# Note: These are reference materials, not Python packages
+# - GDPR: https://gdpr-info.eu/
+# - SOX: https://www.sox-online.com/
+# - HIPAA: https://www.hhs.gov/hipaa/
+# - PCI DSS: https://www.pcisecuritystandards.org/
+# - ISO 27001: https://www.iso.org/isoiec-27001-information-security.html
+# - NIST: https://www.nist.gov/cyberframework

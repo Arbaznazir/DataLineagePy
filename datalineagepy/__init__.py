@@ -36,8 +36,13 @@ except ImportError:
 try:
     from .visualization.graph_visualizer import GraphVisualizer
     from .visualization.report_generator import ReportGenerator
+
 except ImportError:
     pass
+
+
+# ML/AutoML imports (must be top-level for direct import)
+from .ml.automl_tracker import AutoMLTracker
 
 # Testing imports
 try:
@@ -55,6 +60,7 @@ except ImportError:
     pass
 
 __all__ = [
+    'AutoMLTracker',
     'LineageTracker',
     'DataNode', 'FileNode', 'DatabaseNode',
     'LineageEdge',
