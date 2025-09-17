@@ -1,28 +1,25 @@
 
 # =============================================================
-#  🚀 DataLineagePy 3.0 Basic Example
+#  🚀 DataLineagePy 3.0.2 Basic Example
 # =============================================================
 #
 # Demonstrates core features: automatic lineage tracking, column-level
 # dependencies, assign/filter/groupby, and lineage queries/statistics.
 #
-# Version: 3.0   |   Last Updated: September 2025
+# Version: 3.0.2   |   Last Updated: September 2025
 # =============================================================
 
 
-from lineagepy import LineageDataFrame, LineageTracker
+from datalineagepy import LineageDataFrame, LineageTracker
 import pandas as pd
 
 
-
 def main():
-    print("\n🔗 DataLineagePy 3.0 Basic Example")
+    print("\n🔗 DataLineagePy 3.0.2 Basic Example")
     print("=" * 50)
-
 
     # --- Reset tracker for clean demo ---
     LineageTracker.reset_global_instance()
-
 
     # 1️⃣  Create initial sales data
     print("\n1️⃣  Creating initial sales data...")
@@ -38,21 +35,19 @@ def main():
     print(f"   ✅ Created DataFrame: {sales_df.shape}")
     print(f"   Columns: {list(sales_df.columns)}")
 
-
     # 2️⃣  Calculate total revenue
     print("\n2️⃣  Calculating total revenue...")
     sales_with_revenue = sales_df.assign(
         total_revenue=lambda x: x['quantity'] * x['unit_price']
     )
     print(f"   ➕ Added revenue column: {sales_with_revenue.shape}")
-    print(f"   Sample revenue values: {list(sales_with_revenue._df['total_revenue'][:3])}")
-
+    print(
+        f"   Sample revenue values: {list(sales_with_revenue._df['total_revenue'][:3])}")
 
     # 3️⃣  Filter high-value transactions
     print("\n3️⃣  Filtering high-value transactions (>= $300)...")
     high_value = sales_with_revenue[sales_with_revenue._df['total_revenue'] >= 300]
     print(f"   💰 High-value transactions: {high_value.shape}")
-
 
     # 4️⃣  Group by region
     print("\n4️⃣  Summarizing by region...")
@@ -63,7 +58,6 @@ def main():
     print(f"   📊 Region summary: {region_summary.shape}")
     print("   Sample data:")
     print(region_summary._df.to_string(index=False))
-
 
     # 5️⃣  Show lineage information
     print("\n5️⃣  Lineage Information")
@@ -87,7 +81,7 @@ def main():
     dependencies = table_lineage.get('all_dependencies', [])
     print(f"      Depends on {len(dependencies)} upstream tables")
 
-    print("\n✅ Example completed! DataLineagePy 3.0 successfully tracked the entire pipeline.")
+    print("\n✅ Example completed! DataLineagePy 3.0.2 successfully tracked the entire pipeline.")
     print("\n💡 Key features demonstrated:")
     print("   • Automatic lineage tracking for DataFrame operations")
     print("   • Column-level dependency tracking")

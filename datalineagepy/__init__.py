@@ -6,7 +6,7 @@ A comprehensive solution for tracking data lineage with automatic pandas integra
 memory optimization, and enterprise-ready features.
 """
 
-__version__ = "3.0.1"
+__version__ = "3.0.2"
 __author__ = "Arbaz Nazir"
 __email__ = "arbaznazir4@gmail.com"
 

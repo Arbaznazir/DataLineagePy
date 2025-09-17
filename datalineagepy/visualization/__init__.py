@@ -18,7 +18,6 @@ from .interactive_graph import (
     GraphEdge,
     NodeType,
     EdgeType,
-    GraphLayout,
     create_interactive_graph
 )
 
@@ -29,7 +28,6 @@ from .mobile_ui import MobileRenderer, create_mobile_renderer
 from .export_manager import ExportManager, create_export_manager
 
 # Configuration classes
-from .interactive_graph import InteractiveGraphConfig
 from .three_d_visualizer import ThreeDConfig, Node3D, Edge3D
 from .dashboard_builder import DashboardConfig, WidgetConfig, WidgetType
 from .mobile_ui import MobileConfig, MobileCard, MobileListItem
@@ -45,7 +43,7 @@ __all__ = [
     # Core visualization
     'GraphVisualizer',
     'ReportGenerator',
-    
+
     # Interactive graph
     'InteractiveGraphVisualizer',
     'GraphNode',
@@ -55,7 +53,7 @@ __all__ = [
     'GraphLayout',
     'InteractiveGraphConfig',
     'create_interactive_graph',
-    
+
     # 3D visualization
     'ThreeDVisualizer',
     'ThreeDConfig',
@@ -64,7 +62,7 @@ __all__ = [
     'Camera3DMode',
     'Physics3DMode',
     'create_3d_visualizer',
-    
+
     # Dashboard builder
     'DashboardBuilder',
     'DashboardConfig',
@@ -73,7 +71,7 @@ __all__ = [
     'ChartType',
     'LayoutType',
     'create_dashboard_builder',
-    
+
     # Mobile UI
     'MobileRenderer',
     'MobileConfig',
@@ -83,7 +81,7 @@ __all__ = [
     'GestureType',
     'ScreenSize',
     'create_mobile_renderer',
-    
+
     # Export management
     'ExportManager',
     'ExportConfig',
@@ -91,14 +89,14 @@ __all__ = [
     'ExportQuality',
     'ExportSize',
     'create_export_manager',
-    
+
     # Configuration dictionaries
     'DEFAULT_GRAPH_CONFIG',
     'DEFAULT_3D_CONFIG',
     'DEFAULT_DASHBOARD_CONFIG',
     'DEFAULT_MOBILE_CONFIG',
     'DEFAULT_EXPORT_CONFIG',
-    
+
     # Supported features
     'SUPPORTED_VISUALIZATION_TYPES',
     'SUPPORTED_EXPORT_FORMATS',
