@@ -41,6 +41,24 @@ except ImportError:
     pass
 
 
+def configure_lineage(enabled=True, name=None, tracker=None):
+    """Turn lineage tracking on or off for the active tracker.
+
+    Args:
+        enabled: Whether the tracker should record new operations.
+        name: Optional replacement name for the tracker.
+        tracker: Tracker to configure. Defaults to the global tracker.
+
+    Returns:
+        The configured tracker.
+    """
+    active = tracker or LineageTracker.get_global_instance()
+    active.active = bool(enabled)
+    if name is not None:
+        active.name = name
+    return active
+
+
 # ML/AutoML imports (must be top-level for direct import)
 from .ml.automl_tracker import AutoMLTracker
 
@@ -59,7 +77,7 @@ try:
 except ImportError:
     pass
 
-__all__ = [
+_PUBLIC_API = [
     'AutoMLTracker',
     'LineageTracker',
     'DataNode', 'FileNode', 'DatabaseNode',
@@ -67,6 +85,7 @@ __all__ = [
     'LineageDataFrame',
     'read_csv', 'read_json', 'read_parquet', 'read_excel', 'read_multiple_files',
     'Operation',
+    'configure_lineage',
     'DatabaseConnector',
     'FileConnector',
     'CloudStorageConnector',
@@ -78,3 +97,4 @@ __all__ = [
     'CompetitiveAnalyzer',
     'MemoryProfiler',
 ]
+__all__ = [name for name in _PUBLIC_API if name in globals()]

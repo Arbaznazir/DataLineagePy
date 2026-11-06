@@ -133,7 +133,7 @@ include-package-data = true
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["datalineagepy*"]
+include = ["datalineagepy*", "lineagepy*"]
 exclude = ["tests*", "docs*", "examples*"]
 
 [tool.setuptools.package-data]

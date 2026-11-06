@@ -1212,6 +1212,11 @@ class LineageTracker:
         """Alias for clear() method for memory optimization."""
         self.clear()
 
+    @classmethod
+    def get_global_instance(cls) -> "LineageTracker":
+        """Return the process-wide tracker used when callers do not pass one."""
+        return default_tracker
+
     def __str__(self) -> str:
         return f"LineageTracker(name='{self.name}', nodes={len(self.nodes)}, edges={len(self.edges)})"
 
