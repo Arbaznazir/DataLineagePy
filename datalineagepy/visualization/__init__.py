@@ -9,35 +9,33 @@ This module provides comprehensive visualization capabilities including:
 - Advanced graph layouts and rendering
 """
 
-# Core visualization components
-from .graph_visualizer import GraphVisualizer
-from .report_generator import ReportGenerator
-from .interactive_graph import (
-    InteractiveGraphVisualizer,
-    GraphNode,
-    GraphEdge,
-    NodeType,
-    EdgeType,
-    create_interactive_graph
-)
-
-# Advanced visualization components
-from .three_d_visualizer import ThreeDVisualizer, create_3d_visualizer
-from .dashboard_builder import DashboardBuilder, create_dashboard_builder
-from .mobile_ui import MobileRenderer, create_mobile_renderer
-from .export_manager import ExportManager, create_export_manager
-
-# Configuration classes
-from .three_d_visualizer import ThreeDConfig, Node3D, Edge3D
-from .dashboard_builder import DashboardConfig, WidgetConfig, WidgetType
-from .mobile_ui import MobileConfig, MobileCard, MobileListItem
-from .export_manager import ExportConfig, ExportFormat, ExportQuality
-
-# Enums
-from .three_d_visualizer import Camera3DMode, Physics3DMode
-from .dashboard_builder import ChartType, LayoutType
-from .mobile_ui import MobileViewType, GestureType, ScreenSize
-from .export_manager import ExportSize
+# Optional visualization components. Plotly, NetworkX, and related extras
+# are not required to import the package or run the command-line tools.
+try:
+    from .graph_visualizer import GraphVisualizer
+    from .report_generator import ReportGenerator
+    from .interactive_graph import (
+        InteractiveGraphVisualizer,
+        GraphNode,
+        GraphEdge,
+        NodeType,
+        EdgeType,
+        create_interactive_graph
+    )
+    from .three_d_visualizer import ThreeDVisualizer, create_3d_visualizer
+    from .dashboard_builder import DashboardBuilder, create_dashboard_builder
+    from .mobile_ui import MobileRenderer, create_mobile_renderer
+    from .export_manager import ExportManager, create_export_manager
+    from .three_d_visualizer import ThreeDConfig, Node3D, Edge3D
+    from .dashboard_builder import DashboardConfig, WidgetConfig, WidgetType
+    from .mobile_ui import MobileConfig, MobileCard, MobileListItem
+    from .export_manager import ExportConfig, ExportFormat, ExportQuality
+    from .three_d_visualizer import Camera3DMode, Physics3DMode
+    from .dashboard_builder import ChartType, LayoutType
+    from .mobile_ui import MobileViewType, GestureType, ScreenSize
+    from .export_manager import ExportSize
+except ImportError:
+    pass
 
 __all__ = [
     # Core visualization
