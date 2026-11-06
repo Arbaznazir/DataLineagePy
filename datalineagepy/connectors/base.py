@@ -9,6 +9,10 @@ class DatabaseConnector:
     connection = None
     engine = None
 
+    def close(self):
+        """Close the connection. Alias for ``disconnect``."""
+        self.disconnect()
+
     def disconnect(self):
         """Close the connection and dispose of the engine."""
         connection = self.connection

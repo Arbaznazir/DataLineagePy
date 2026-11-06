@@ -26,12 +26,23 @@ class PostgreSQLConnector(DatabaseConnector):
     without a PostgreSQL server.
     """
 
-    def __init__(self, connection_string, use_sqlalchemy=True, tracker=None):
+    def __init__(self, connection_string=None, use_sqlalchemy=True, tracker=None,
+                 lineage_tracker=None, host=None, user=None, password=None,
+                 database=None, port=None):
+        if connection_string is None:
+            if not host or not database:
+                raise TypeError(
+                    "PostgreSQLConnector requires a connection string or host and database"
+                )
+            connection_string = "postgresql://{}:{}@{}:{}/{}".format(
+                user or "", password or "", host, port or 5432, database
+            )
         self.connection_string = connection_string
         self.use_sqlalchemy = bool(use_sqlalchemy)
         self.connection = None
         self.engine = None
-        self.tracker = tracker or LineageTracker.get_global_instance()
+        self.tracker = tracker or lineage_tracker or LineageTracker.get_global_instance()
+        self.lineage_tracker = self.tracker
         self.sql_parser = SQLLineageParser()
 
     def connect(self):
@@ -54,9 +65,12 @@ class PostgreSQLConnector(DatabaseConnector):
         frame = pd.read_sql(query, self.connection)
         return self._create_lineage_dataframe(frame, table_name)
 
-    def execute_query(self, query):
+    def execute_query(self, query, params=None):
         """Run a SQL query and record the source tables."""
-        frame = pd.read_sql(query, self.connection)
+        if params is None:
+            frame = pd.read_sql(query, self.connection)
+        else:
+            frame = pd.read_sql(query, self.connection, params=params)
         result = self._create_lineage_dataframe(frame, "query_result")
         self._track_sql_lineage(self.sql_parser.parse_query(query), result)
         return result

@@ -17,10 +17,17 @@ SQLALCHEMY_AVAILABLE = SQLALCHEMY_INSTALLED
 create_engine = _default_create_engine
 
 
+def _is_select(query) -> bool:
+    first = str(query).lstrip().split(None, 1)
+    if not first:
+        return False
+    return first[0].upper() in ("SELECT", "WITH", "PRAGMA")
+
+
 class SQLiteConnector(DatabaseConnector):
     """Read and write a SQLite database while recording lineage."""
 
-    def __init__(self, database_path, use_sqlalchemy=None, tracker=None):
+    def __init__(self, database_path, use_sqlalchemy=None, tracker=None, lineage_tracker=None):
         self.database_path = database_path
         if database_path == ":memory:":
             self.connection_string = "sqlite:///:memory:"
@@ -31,7 +38,9 @@ class SQLiteConnector(DatabaseConnector):
         self.use_sqlalchemy = bool(use_sqlalchemy)
         self.connection = None
         self.engine = None
-        self.tracker = tracker or LineageTracker.get_global_instance()
+        self._memory_connection = None
+        self.tracker = tracker or lineage_tracker or LineageTracker.get_global_instance()
+        self.lineage_tracker = self.tracker
         self.sql_parser = SQLLineageParser()
 
     def connect(self):
@@ -57,8 +66,16 @@ class SQLiteConnector(DatabaseConnector):
             frame = pd.read_sql_query(query, self.connection)
         return self._create_lineage_dataframe(frame, table_name)
 
-    def execute_query(self, query):
-        """Run a SQL query and record the source tables."""
+    def execute_query(self, query, params=None):
+        """Run a SQL statement and record lineage.
+
+        SELECT statements return a LineageDataFrame. Other statements return
+        the affected row count and accept SQLite parameter placeholders.
+        """
+        if params is not None or not _is_select(query):
+            return self._execute_statement(query, params)
+        if self.connection is None:
+            self.connect()
         if self.use_sqlalchemy:
             frame = pd.read_sql(query, self.connection)
         else:
@@ -66,6 +83,39 @@ class SQLiteConnector(DatabaseConnector):
         result = self._create_lineage_dataframe(frame, "query_result")
         self._track_sql_lineage(self.sql_parser.parse_query(query), result)
         return result
+
+    def _execute_statement(self, query, params=None):
+        """Execute a write, or a parameterized read, on a SQLite connection."""
+        own_connection = False
+        if isinstance(self.connection, sqlite3.Connection):
+            connection = self.connection
+        elif self.database_path == ":memory:":
+            if self._memory_connection is None:
+                self._memory_connection = sqlite3.connect(":memory:")
+            connection = self._memory_connection
+        else:
+            connection = sqlite3.connect(self.database_path)
+            own_connection = True
+        try:
+            cursor = connection.cursor()
+            cursor.execute(query, params or ())
+            if _is_select(query):
+                columns = [item[0] for item in cursor.description] if cursor.description else []
+                frame = pd.DataFrame(cursor.fetchall(), columns=columns)
+                result = self._create_lineage_dataframe(frame, "query_result")
+                self._track_sql_lineage(self.sql_parser.parse_query(query), result)
+                return result
+            connection.commit()
+            self.tracker.track_operation(
+                "sqlite_statement",
+                [],
+                [],
+                {"query": query},
+            )
+            return cursor.rowcount
+        finally:
+            if own_connection:
+                connection.close()
 
     def get_schema(self, table_name):
         """Return a mapping of column name to declared SQLite type."""
