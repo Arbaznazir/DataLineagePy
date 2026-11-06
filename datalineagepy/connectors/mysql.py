@@ -7,8 +7,8 @@ import pandas as pd
 from datalineagepy.connectors._engine import SQLALCHEMY_INSTALLED
 from datalineagepy.connectors._engine import create_engine as _default_create_engine
 from datalineagepy.connectors.base import DatabaseConnector
-from datalineagepy.connectors.sql_lineage import create_lineage_dataframe
-from datalineagepy.connectors.sql_lineage import track_sql_lineage
+from datalineagepy.connectors.query_tracking import create_lineage_dataframe
+from datalineagepy.connectors.query_tracking import track_sql_lineage
 from datalineagepy.connectors.sql_parser import SQLLineageParser
 from datalineagepy.core.tracker import LineageTracker
 
