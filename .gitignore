@@ -177,6 +177,8 @@ PHASE*_FINAL_SUMMARY.*
 # Test files (unless in tests/ directory)
 test_*.py
 *_test.py
+!tests/**/test_*.py
+!tests/**/*_test.py
 quick_test.*
 final_test_*
 test_results.*

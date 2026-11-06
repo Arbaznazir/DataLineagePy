@@ -2,11 +2,13 @@
 Basic functionality tests for DataLineagePy.
 """
 
-from lineagepy import LineageDataFrame, LineageTracker
-import pandas as pd
 import sys
 import os
+
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
+from datalineagepy import LineageDataFrame, LineageTracker
+import pandas as pd
 
 
 def test_basic_creation():
