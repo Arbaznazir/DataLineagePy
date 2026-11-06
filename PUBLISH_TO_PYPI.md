@@ -30,7 +30,7 @@ DataLineagePy/
 ### 2. **Version and Metadata Check**
 
 - **Package Name**: `datalineagepy` ✅
-- **Version**: `3.0.3` ✅
+- **Version**: `3.0.4` ✅
 - **Author**: Arbaz Nazir ✅
 - **Email**: arbaznazir4@gmail.com ✅
 - **License**: MIT ✅

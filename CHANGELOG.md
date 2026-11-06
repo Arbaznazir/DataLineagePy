@@ -2,6 +2,25 @@
 
 All notable changes to DataLineagePy will be documented in this file.
 
+## [3.0.4] - 2026-11-06
+
+### Added
+
+- `tracker.visualize()` and `tracker.export_lineage()` for the documented quick start
+- `lineagepy` import alias so existing imports resolve to `datalineagepy`
+- `configure_lineage()` and `LineageTracker.get_global_instance()`
+- SQLite, MySQL, and PostgreSQL connectors with lineage tracking
+- CSV, JSON, and Parquet file connectors
+- `datalineage`, `datalineage-viz`, and `datalineage-export` commands
+- SQLite support for the database user guide: `lineage_tracker`, parameterized statements, and `close()`
+
+### Fixed
+
+- A single filter or query no longer records the same lineage edge twice
+- New tests under `tests/` are no longer ignored by git
+- The default pytest run no longer fails unless coverage is already 90 percent
+- CI coverage now measures `datalineagepy`
+
 ## [1.0.5] - 2025-01-17
 
 ### Fixed
