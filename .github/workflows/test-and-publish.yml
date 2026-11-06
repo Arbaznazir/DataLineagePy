@@ -31,7 +31,7 @@ jobs:
 
       - name: Run tests
         run: |
-          pytest tests/ -v --cov=lineagepy --cov-report=xml
+          pytest tests/ -v --cov=datalineagepy --cov-report=xml
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3

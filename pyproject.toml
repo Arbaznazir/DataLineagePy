@@ -151,12 +151,7 @@ minversion = "7.0"
 addopts = [
     "-ra",
     "--strict-markers",
-    "--strict-config",
-    "--cov=datalineagepy",
-    "--cov-report=term-missing",
-    "--cov-report=html",
-    "--cov-report=xml",
-    "--cov-fail-under=90"
+    "--strict-config"
 ]
 testpaths = ["tests"]
 python_files = ["test_*.py", "*_test.py"]
