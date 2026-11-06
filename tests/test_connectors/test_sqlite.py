@@ -332,13 +332,15 @@ class TestSQLiteConnector:
         """Test disconnection with SQLAlchemy."""
         with patch('lineagepy.connectors.sqlite.SQLALCHEMY_AVAILABLE', True):
             connector = SQLiteConnector(temp_db_path)
-            connector.connection = Mock()
-            connector.engine = Mock()
+            connection = Mock()
+            engine = Mock()
+            connector.connection = connection
+            connector.engine = engine
 
             connector.disconnect()
 
-            connector.connection.close.assert_called_once()
-            connector.engine.dispose.assert_called_once()
+            connection.close.assert_called_once()
+            engine.dispose.assert_called_once()
             assert connector.connection is None
             assert connector.engine is None
 
@@ -346,11 +348,12 @@ class TestSQLiteConnector:
         """Test disconnection with sqlite3."""
         with patch('lineagepy.connectors.sqlite.SQLALCHEMY_AVAILABLE', False):
             connector = SQLiteConnector(temp_db_path, use_sqlalchemy=False)
-            connector.connection = Mock()
+            connection = Mock()
+            connector.connection = connection
 
             connector.disconnect()
 
-            connector.connection.close.assert_called_once()
+            connection.close.assert_called_once()
             assert connector.connection is None
 
     def test_directory_creation(self):
