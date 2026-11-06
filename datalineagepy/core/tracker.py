@@ -83,8 +83,17 @@ class LineageTracker:
             metadata: Additional edge metadata
 
         Returns:
-            Created LineageEdge instance
+            Created LineageEdge instance, or the existing edge when the same
+            source, target, and operation were already recorded.
         """
+        for existing in self.edges:
+            if (
+                existing.source_id == source_node.id
+                and existing.target_id == target_node.id
+                and existing.operation is operation
+            ):
+                return existing
+
         edge = LineageEdge(
             source_id=source_node.id,
             target_id=target_node.id,
