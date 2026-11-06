@@ -741,6 +741,123 @@ class LineageTracker:
         else:
             raise ValueError(f"Unsupported export format: {format}")
 
+    def export_lineage(self, output_file: str, format: Optional[str] = None) -> str:
+        """Write the lineage graph to disk.
+
+        This is the documented quick-start entry point. ``export_graph`` remains
+        available when callers need the graph returned in memory.
+
+        Args:
+            output_file: Destination path. ``.json`` and ``.dot`` suffixes
+                select the format when ``format`` is omitted.
+            format: Optional export format (``json``, ``dict``, ``dot``).
+
+        Returns:
+            The path that was written.
+        """
+        if format is None:
+            lower = output_file.lower()
+            if lower.endswith(".dot"):
+                format = "dot"
+            else:
+                format = "json"
+        self.export_graph(format=format, output_file=output_file)
+        return output_file
+
+    def visualize(self, output_file: str = "lineage.html") -> str:
+        """Write an HTML view of the lineage graph.
+
+        Uses the Plotly visualizer when that extra is installed. Otherwise
+        writes a self-contained HTML page so the quick start still runs.
+
+        Args:
+            output_file: Destination HTML path.
+
+        Returns:
+            The path that was written.
+        """
+        try:
+            from ..visualization.graph_visualizer import GraphVisualizer
+        except ImportError:
+            html = self._simple_lineage_html()
+            with open(output_file, "w", encoding="utf-8") as handle:
+                handle.write(html)
+            return output_file
+
+        GraphVisualizer(self).generate_html(output_file=output_file)
+        return output_file
+
+    def _simple_lineage_html(self) -> str:
+        """Render lineage as HTML without optional visualization libraries."""
+        import html as html_lib
+
+        node_rows = []
+        for node in self.nodes.values():
+            columns = ", ".join(node.columns) if node.columns else "—"
+            node_rows.append(
+                "<tr><td>{}</td><td>{}</td><td>{}</td></tr>".format(
+                    html_lib.escape(str(node.name)),
+                    html_lib.escape(getattr(node, "node_type", "data")),
+                    html_lib.escape(columns),
+                )
+            )
+
+        edge_items = []
+        id_to_name = {node.id: node.name for node in self.nodes.values()}
+        for edge in self.edges:
+            operation = edge.operation.operation_type if edge.operation else "unknown"
+            source = id_to_name.get(edge.source_id, edge.source_id)
+            target = id_to_name.get(edge.target_id, edge.target_id)
+            edge_items.append(
+                "<li>{} &rarr; {} <em>({})</em></li>".format(
+                    html_lib.escape(str(source)),
+                    html_lib.escape(str(target)),
+                    html_lib.escape(str(operation)),
+                )
+            )
+
+        if not node_rows:
+            node_rows.append("<tr><td colspan='3'>No lineage nodes yet</td></tr>")
+        if not edge_items:
+            edge_items.append("<li>No transformations recorded</li>")
+
+        return """<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>{title} lineage</title>
+  <style>
+    body {{ font-family: sans-serif; margin: 2rem; color: #1f2933; }}
+    table {{ border-collapse: collapse; width: 100%; }}
+    th, td {{ border: 1px solid #d9e2ec; padding: 0.5rem 0.75rem; text-align: left; }}
+    th {{ background: #f0f4f8; }}
+  </style>
+</head>
+<body>
+  <h1>{title}</h1>
+  <p>{stats}</p>
+  <h2>Nodes</h2>
+  <table>
+    <thead><tr><th>Name</th><th>Type</th><th>Columns</th></tr></thead>
+    <tbody>
+      {nodes}
+    </tbody>
+  </table>
+  <h2>Transformations</h2>
+  <ul>
+    {edges}
+  </ul>
+</body>
+</html>
+""".format(
+            title=html_lib.escape(self.name),
+            stats=html_lib.escape(
+                "{} nodes, {} edges".format(len(self.nodes), len(self.edges))
+            ),
+            nodes="\n".join(node_rows),
+            edges="\n".join(edge_items),
+        )
+
     def get_lineage_graph(self, format: str = 'dict') -> Any:
         """
         Get the complete lineage graph structure.
